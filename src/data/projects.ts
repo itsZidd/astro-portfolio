@@ -25,6 +25,17 @@ export const projects: Project[] = [
             "https://github.com/itsZidd/expo-prayer-time/releases/download/1.0.0/application-375dc22a-becb-4ab2-8312-4a8f3002da15.apk",
     },
     {
+        slug: "python-prayer-time",
+        file: "prayer_time_api.py",
+        title: "Smart Prayer Times API & CLI",
+        category: "Software",
+        summary:
+            "A FastAPI prayer-time API and CLI with custom solar astronomy and five high-latitude fallback strategies — the calculation engine later ported into the React Native Prayer Time app.",
+        stack: ["Python", "FastAPI"],
+        status: "live",
+        repoUrl: "https://github.com/itsZidd/python-prayer-time-calculation",
+    },
+    {
         slug: "astro-portfolio",
         file: "astro_portfolio.astro",
         title: "Astro Portfolio",
