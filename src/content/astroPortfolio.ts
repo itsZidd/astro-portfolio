@@ -65,20 +65,16 @@ export const astroPortfolioContent = {
                 body: "`astro dev` serves components straight from the source tree, so the relative `../../node_modules/...` path always resolves correctly. `astro build` doesn't: it bundles these components into chunk files under `dist/.prerender/chunks/`, and `import.meta.url` inside a bundled chunk points there instead of the original source location. The same relative traversal now lands on a `dist/node_modules` that doesn't exist, and the prerender step throws — for every page that renders an `Icon` or `TechIcon`, including ones that shipped before the stats page existed.",
             },
             {
-                label: "Decision",
-                body: "Confirmed by temporarily removing the new stats pages and rebuilding: the pre-existing case-study page failed the exact same way, proving this wasn't something the stats feature introduced. Rather than rewrite two shared components under time pressure while shipping an unrelated feature, the bug is called out here plainly instead of silently worked around — the fix (swapping the runtime `fs.readFileSync` calls for a Vite `import.meta.glob` icon map, which resolves correctly in both dev and build) is scoped and ready to pick up separately.",
+                label: "Diagnosis",
+                body: "Confirmed by temporarily removing the new stats pages and rebuilding: the pre-existing case-study page failed the exact same way, proving this wasn't something the stats feature introduced. Both `Icon` and `TechIcon` had the identical `../../node_modules/...` pattern, so both needed the same fix.",
+            },
+            {
+                label: "Fix",
+                body: "Swapped the manual relative-path construction for `createRequire(import.meta.url).resolve(\"lucide-static/icons/...\")` (and the same for `simple-icons`). Node's module resolution walks up parent directories looking for `node_modules` rather than jumping a fixed number of levels from wherever the current file happens to live, so it resolves correctly whether the component runs from `src/components` in dev or from a bundled chunk under `dist/.prerender/chunks` in a production build. Verified with a clean local `astro build` and confirmed on the live Vercel deployment.",
             },
         ],
 
         notes: [
-            {
-                title: "Production build is currently broken",
-                body: "`astro build` throws on any page using `Icon` or `TechIcon` — see the case study above. `astro dev` is unaffected, which is how this shipped without the break being obvious immediately.",
-            },
-            {
-                title: "Only two projects logged so far",
-                body: "The /stats tag cloud and per-tech pages work correctly with one project, but they're built to get more useful as more projects are added — right now there just isn't much to size against.",
-            },
             {
                 title: "The content-repo indirection isn't wired up yet",
                 body: "`src/lib/content.ts` can fetch project data from a separate content repo at build time, falling back to the local `src/data/projects.ts`. No page calls it yet — every page still imports the local data directly.",
@@ -152,20 +148,16 @@ export const astroPortfolioContent = {
                 body: "`astro dev` menyajikan komponen langsung dari source tree, sehingga path relatif `../../node_modules/...` selalu ter-resolve dengan benar. `astro build` tidak begitu: komponen-komponen ini di-bundle ke dalam file chunk di `dist/.prerender/chunks/`, dan `import.meta.url` di dalam chunk yang sudah di-bundle menunjuk ke lokasi itu, bukan lokasi source aslinya. Penelusuran relatif yang sama kini berakhir di `dist/node_modules` yang tidak ada, dan tahap prerender pun gagal — untuk setiap halaman yang me-render `Icon` atau `TechIcon`, termasuk halaman yang sudah ada sebelum halaman statistik dibuat.",
             },
             {
-                label: "Keputusan",
-                body: "Dikonfirmasi dengan menghapus sementara halaman statistik yang baru lalu build ulang: halaman studi kasus yang sudah ada sebelumnya gagal dengan cara yang persis sama, membuktikan ini bukan masalah yang muncul karena fitur statistik. Daripada menulis ulang dua komponen bersama secara terburu-buru di tengah pengiriman fitur yang tidak terkait, bug ini dijelaskan secara terbuka di sini, bukan disembunyikan dengan solusi sementara — perbaikannya (mengganti pemanggilan `fs.readFileSync` saat runtime dengan peta ikon `import.meta.glob` milik Vite, yang ter-resolve dengan benar baik di dev maupun build) sudah terpetakan dan siap dikerjakan terpisah.",
+                label: "Diagnosis",
+                body: "Dikonfirmasi dengan menghapus sementara halaman statistik yang baru lalu build ulang: halaman studi kasus yang sudah ada sebelumnya gagal dengan cara yang persis sama, membuktikan ini bukan masalah yang muncul karena fitur statistik. Baik `Icon` maupun `TechIcon` memakai pola `../../node_modules/...` yang identik, sehingga keduanya butuh perbaikan yang sama.",
+            },
+            {
+                label: "Perbaikan",
+                body: "Konstruksi path relatif manual diganti dengan `createRequire(import.meta.url).resolve(\"lucide-static/icons/...\")` (begitu juga untuk `simple-icons`). Resolusi modul Node menelusuri ke atas mencari `node_modules`, bukan melompat sejumlah level tetap dari lokasi file saat ini — sehingga tetap ter-resolve dengan benar baik saat komponen berjalan dari `src/components` di dev maupun dari chunk hasil bundle di `dist/.prerender/chunks` saat build produksi. Diverifikasi dengan `astro build` lokal yang bersih dan dikonfirmasi pada deployment Vercel yang live.",
             },
         ],
 
         notes: [
-            {
-                title: "Build produksi saat ini masih gagal",
-                body: "`astro build` gagal pada halaman mana pun yang memakai `Icon` atau `TechIcon` — lihat studi kasus di atas. `astro dev` tidak terpengaruh, itulah sebabnya masalah ini bisa lolos tanpa langsung terlihat.",
-            },
-            {
-                title: "Baru dua proyek yang tercatat",
-                body: "Tag cloud dan halaman per-teknologi di /stats sudah berfungsi dengan satu proyek, tapi dirancang untuk makin berguna seiring bertambahnya proyek — saat ini memang belum banyak yang bisa dibandingkan.",
-            },
             {
                 title: "Indirection ke content repo belum tersambung",
                 body: "`src/lib/content.ts` bisa mengambil data proyek dari repo konten terpisah saat build, dengan fallback ke `src/data/projects.ts` lokal. Belum ada halaman yang memanggilnya — semua halaman masih mengimpor data lokal secara langsung.",

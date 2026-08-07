@@ -62,6 +62,10 @@ export const pythonPrayerTimeContent = {
                 label: "Testing",
                 items: ["pytest + httpx — 26 tests covering calculator and API layers"],
             },
+            {
+                label: "Deployment",
+                items: ["Vercel"],
+            },
         ],
 
         studyTitle: "Case Study: Finding and Fixing Two Silent High-Latitude Bugs",
@@ -174,6 +178,10 @@ export const pythonPrayerTimeContent = {
             {
                 label: "Pengujian",
                 items: ["pytest + httpx — 26 tes mencakup lapisan kalkulator dan API"],
+            },
+            {
+                label: "Deployment",
+                items: ["Vercel"],
             },
         ],
 
