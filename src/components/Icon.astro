@@ -1,5 +1,6 @@
 ---
 import fs from "node:fs";
+import { createRequire } from "node:module";
 
 interface Props {
     /** Icon name as it appears in lucide-static/icons, e.g. "chevron-left" */
@@ -11,10 +12,8 @@ interface Props {
 
 const { name, size = 20, strokeWidth, class: className } = Astro.props;
 
-const iconPath = new URL(
-    `../../node_modules/lucide-static/icons/${name}.svg`,
-    import.meta.url,
-);
+const require = createRequire(import.meta.url);
+const iconPath = require.resolve(`lucide-static/icons/${name}.svg`);
 let svg = fs.readFileSync(iconPath, "utf-8");
 
 svg = svg

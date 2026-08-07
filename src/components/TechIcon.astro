@@ -1,5 +1,6 @@
 ---
 import fs from "node:fs";
+import { createRequire } from "node:module";
 
 /**
  * Maps a skill/stack label to its simple-icons slug. Labels with no
@@ -45,10 +46,8 @@ const slug = findSlug(name);
 
 let svg = "";
 if (slug) {
-    const iconPath = new URL(
-        `../../node_modules/simple-icons/icons/${slug}.svg`,
-        import.meta.url,
-    );
+    const require = createRequire(import.meta.url);
+    const iconPath = require.resolve(`simple-icons/icons/${slug}.svg`);
     svg = fs.readFileSync(iconPath, "utf-8").replace(/<title>.*?<\/title>/, "");
     const attrs = `aria-hidden="true" width="${size}" height="${size}" fill="currentColor"${className ? ` class="${className}"` : ""}`;
     svg = svg.replace("<svg", `<svg ${attrs}`);
