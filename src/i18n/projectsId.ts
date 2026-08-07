@@ -14,6 +14,10 @@ export const projectTranslationsId: Record<
         summary:
             "Aplikasi pendamping salat yang offline-first — perhitungan astronomi waktu salat kustom, pembaca Al-Qur'an dengan pewarnaan tajwid, dan notifikasi terjadwal yang tetap presisi di latar belakang.",
     },
+    "astro-portfolio": {
+        summary:
+            "Situs pribadi saya — etalase proyek dwibahasa yang dibangun dengan Astro, termasuk tag cloud pemakaian teknologi yang menautkan tiap alat kembali ke proyek yang memakainya.",
+    },
 };
 
 /** Category labels, for when the "Selected Work" grid groups by category later. */

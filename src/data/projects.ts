@@ -24,4 +24,15 @@ export const projects: Project[] = [
         downloadUrl:
             "https://github.com/itsZidd/expo-prayer-time/releases/download/1.0.0/application-375dc22a-becb-4ab2-8312-4a8f3002da15.apk",
     },
+    {
+        slug: "astro-portfolio",
+        file: "astro_portfolio.astro",
+        title: "Astro Portfolio",
+        category: "Software",
+        summary:
+            "My personal site — a bilingual project showcase built with Astro, including a tech-usage tag cloud that links each tool back to the projects that use it.",
+        stack: ["Astro", "TypeScript"],
+        status: "wip",
+        repoUrl: "https://github.com/itsZidd/astro-portfolio",
+    },
 ];

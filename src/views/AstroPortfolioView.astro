@@ -1,0 +1,288 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import TechIcon from "../components/TechIcon.astro";
+import { useTranslations, getLocalizedPath } from "../i18n/utils";
+import type { Lang } from "../i18n/config";
+import { astroPortfolioContent } from "../content/astroPortfolio.ts";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const c = astroPortfolioContent[lang];
+
+/**
+ * Escapes HTML, then turns `backtick` segments into <code> spans.
+ * Content is our own dictionary text (not user input), but escaping
+ * first keeps this safe regardless.
+ */
+function inlineCode(raw: string): string {
+    const escaped = raw
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    return escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+---
+
+<Layout title="Astro Portfolio — M. Zidan Malik">
+    <article class="case">
+        <div class="wrap">
+            <a href={getLocalizedPath(lang, "/#work")} class="case__back">
+                <Icon name="arrow-left" size={14} />
+                {t("case.back")}
+            </a>
+
+            <p class="eyebrow">{c.eyebrow}</p>
+            <h1 class="h-display case__title">Astro Portfolio</h1>
+            <p class="case__pitch">{c.pitch}</p>
+
+            <div class="case__links">
+                <a
+                    class="case__btn case__btn--primary"
+                    href="https://github.com/itsZidd/astro-portfolio"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Icon name="square-arrow-out-up-right" size={15} />
+                    {t("case.viewGithub")}
+                </a>
+            </div>
+        </div>
+
+        <section class="wrap case__section">
+            <h2 class="section-title">{t("case.whatsBuilt")}</h2>
+            <div class="stack-grid">
+                {
+                    c.featureGroups.map((g) => (
+                        <div class="stack-group">
+                            <p class="eyebrow">{g.label}</p>
+                            <ul>
+                                {g.items.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="wrap case__section">
+            <h2 class="section-title">{t("case.techStack")}</h2>
+            <div class="stack-grid">
+                {
+                    c.stackGroups.map((g) => (
+                        <div class="stack-group">
+                            <p class="eyebrow">{g.label}</p>
+                            <ul>
+                                {g.items.map((item) => (
+                                    <li>
+                                        <TechIcon name={item} size={14} />
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="wrap case__section">
+            <h2 class="section-title">{c.studyTitle}</h2>
+
+            <div class="story">
+                {
+                    c.story.map((block) => (
+                        <div class="story__block">
+                            <p class="story__label">{block.label}</p>
+                            <p set:html={inlineCode(block.body)} />
+                        </div>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="wrap case__section case__section--last">
+            <h2 class="section-title">{t("case.limitations")}</h2>
+            <div class="notes">
+                {
+                    c.notes.map((n) => (
+                        <div class="notes__item">
+                            <p class="notes__title">{n.title}</p>
+                            <p set:html={inlineCode(n.body)} />
+                        </div>
+                    ))
+                }
+            </div>
+        </section>
+    </article>
+
+    <style>
+        .case__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 32px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 7px 12px 7px 10px;
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition:
+                border-color 0.15s ease,
+                color 0.15s ease,
+                background 0.15s ease;
+        }
+        .case__back:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--surface);
+        }
+
+        .case__title {
+            font-size: clamp(2.6rem, 6vw, 4.2rem);
+            margin: 10px 0 0;
+        }
+        .case__pitch {
+            max-width: 68ch;
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .case__links {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .case__btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            border: 0.5px solid var(--border);
+            color: var(--text);
+            transition:
+                border-color 0.15s ease,
+                color 0.15s ease;
+        }
+        .case__btn--primary {
+            background: var(--green-700);
+            border-color: var(--green-500);
+            color: var(--text);
+        }
+        .case__btn--primary:hover {
+            background: var(--green-500);
+        }
+
+        .case__section {
+            padding-top: 64px;
+        }
+        .case__section--last {
+            padding-bottom: 80px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin: 0 0 28px;
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .stack-group ul {
+            list-style: none;
+            margin: 10px 0 0;
+            padding: 0;
+        }
+        .stack-group li {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            padding: 7px 0;
+            border-bottom: 0.5px solid var(--border-soft);
+        }
+        .stack-group li :global(svg) {
+            flex-shrink: 0;
+            color: var(--text-faint);
+        }
+
+        .story {
+            display: grid;
+            gap: 24px;
+        }
+        .story__block {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+        }
+        .story__label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent-strong);
+            margin: 0 0 10px;
+        }
+        .story__block p:last-child {
+            margin: 0;
+        }
+        .story__block p {
+            color: var(--text-secondary);
+            font-size: 14.5px;
+            line-height: 1.65;
+        }
+        .story__block :global(code) {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--green-100);
+            background: var(--surface-2);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .notes__title {
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--text);
+            margin: 0 0 8px;
+        }
+        .notes__item p:last-child {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .notes__item :global(code) {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--green-100);
+            background: var(--surface-2);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</Layout>
