@@ -1,0 +1,68 @@
+---
+import { languages, type Lang } from "../i18n/config";
+import { getLocalizedPath } from "../i18n/utils";
+
+interface Props {
+    lang: Lang;
+    /** Current page path with the locale prefix stripped, e.g. "/" or "/work/prayer-time" */
+    path: string;
+}
+const { lang, path } = Astro.props;
+const codes = Object.keys(languages) as Lang[];
+---
+
+<div class="lang-switch" role="group" aria-label="Language">
+    {
+        codes.map((code) => (
+            <a
+                href={getLocalizedPath(code, path)}
+                class="lang-switch__item"
+                aria-current={code === lang ? "true" : undefined}
+                data-lang={code}
+            >
+                {code.toUpperCase()}
+            </a>
+        ))
+    }
+</div>
+
+<style>
+    .lang-switch {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 3px;
+    }
+    .lang-switch__item {
+        padding: 3px 7px;
+        border-radius: 4px;
+        color: var(--text-faint);
+        letter-spacing: 0.04em;
+        transition:
+            color 0.15s ease,
+            background 0.15s ease;
+    }
+    .lang-switch__item:hover {
+        color: var(--text);
+    }
+    .lang-switch__item[aria-current="true"] {
+        color: var(--bg);
+        background: var(--accent);
+    }
+</style>
+
+<script>
+    // Remember the visitor's chosen language so a bare "/" visit
+    // (which static-redirects to /en/) can bounce them to /id/ instead
+    // if that's what they picked last time.
+    document.querySelectorAll<HTMLAnchorElement>(".lang-switch__item").forEach((el) => {
+        el.addEventListener("click", () => {
+            const lang = el.dataset.lang;
+            if (lang) localStorage.setItem("preferred-lang", lang);
+        });
+    });
+</script>

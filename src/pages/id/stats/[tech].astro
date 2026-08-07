@@ -1,0 +1,12 @@
+---
+import TechDetailView from "../../../views/TechDetailView.astro";
+import { getTechCounts } from "../../../lib/tech.ts";
+
+export function getStaticPaths() {
+    return getTechCounts().map((tech) => ({ params: { tech: tech.slug } }));
+}
+
+const { tech } = Astro.params;
+---
+
+<TechDetailView lang="id" slug={tech} />

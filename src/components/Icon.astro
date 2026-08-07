@@ -1,0 +1,33 @@
+---
+import fs from "node:fs";
+
+interface Props {
+    /** Icon name as it appears in lucide-static/icons, e.g. "chevron-left" */
+    name: string;
+    size?: number | string;
+    strokeWidth?: number;
+    class?: string;
+}
+
+const { name, size = 20, strokeWidth, class: className } = Astro.props;
+
+const iconPath = new URL(
+    `../../node_modules/lucide-static/icons/${name}.svg`,
+    import.meta.url,
+);
+let svg = fs.readFileSync(iconPath, "utf-8");
+
+svg = svg
+    .replace(/<!--[\s\S]*?-->\s*/, "")
+    .replace(/\swidth="24"/, ` width="${size}"`)
+    .replace(/\sheight="24"/, ` height="${size}"`);
+
+if (strokeWidth) {
+    svg = svg.replace(/stroke-width="2"/, `stroke-width="${strokeWidth}"`);
+}
+if (className) {
+    svg = svg.replace(/class="([^"]*)"/, (_match, existing) => `class="${existing} ${className}"`);
+}
+---
+
+<Fragment set:html={svg} />

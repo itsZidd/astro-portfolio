@@ -1,0 +1,185 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import TechIcon from "../components/TechIcon.astro";
+import { getProjectsForTech, getTechNameForSlug } from "../lib/tech.ts";
+import { useTranslations, getLocalizedPath, getProjectText } from "../i18n/utils";
+import type { Lang } from "../i18n/config";
+
+interface Props {
+    lang: Lang;
+    slug: string;
+}
+const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
+
+const techName = getTechNameForSlug(slug) ?? slug;
+const matches = getProjectsForTech(slug);
+---
+
+<Layout title={`${techName} — M. Zidan Malik`}>
+    <section class="tech">
+        <div class="wrap">
+            <a href={getLocalizedPath(lang, "/stats")} class="tech__back">
+                <Icon name="arrow-left" size={14} />
+                {t("stats.back")}
+            </a>
+
+            <div class="tech__head">
+                <TechIcon name={techName} size={30} />
+                <div>
+                    <p class="eyebrow">{t("stats.techLabel")}</p>
+                    <h1 class="h-display tech__title">{techName}</h1>
+                </div>
+            </div>
+
+            <p class="tech__count eyebrow">
+                {matches.length} {matches.length === 1 ? t("stats.project") : t("stats.projects")}
+            </p>
+
+            <div class="project-grid">
+                {
+                    matches.map((p) => {
+                        const text = getProjectText(lang, p);
+                        return (
+                            <a class="project-card" href={getLocalizedPath(lang, `/work/${p.slug}`)}>
+                                <div class="project-card__top">
+                                    <span class="project-card__file">{p.file}</span>
+                                    <span class={`project-card__status project-card__status--${p.status}`}>
+                                        {p.status === "live" ? t("status.live") : t("status.progress")}
+                                    </span>
+                                </div>
+                                <h3 class="project-card__title">{text.title}</h3>
+                                <p class="project-card__summary">{text.summary}</p>
+                                <div class="project-card__stack">
+                                    {p.stack.map((s) => (
+                                        <span>
+                                            <TechIcon name={s} size={12} />
+                                            {s}
+                                        </span>
+                                    ))}
+                                </div>
+                            </a>
+                        );
+                    })
+                }
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .tech {
+            padding-bottom: 96px;
+        }
+        .tech__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 32px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 7px 12px 7px 10px;
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition:
+                border-color 0.15s ease,
+                color 0.15s ease,
+                background 0.15s ease;
+        }
+        .tech__back:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--surface);
+        }
+
+        .tech__head {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+            color: var(--accent);
+        }
+        .tech__title {
+            font-size: clamp(2.4rem, 6vw, 3.8rem);
+            margin: 4px 0 0;
+        }
+        .tech__count {
+            margin: 20px 0 0;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+        .project-card {
+            display: block;
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition:
+                border-color 0.15s ease,
+                transform 0.15s ease;
+        }
+        .project-card:hover {
+            border-color: var(--green-300);
+            transform: translateY(-2px);
+        }
+        .project-card__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .project-card__file {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--green-100);
+        }
+        .project-card__status {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 0.5px solid var(--border);
+            color: var(--text-faint);
+        }
+        .project-card__status--live {
+            color: var(--green-100);
+            border-color: var(--green-500);
+        }
+        .project-card__title {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 17px;
+            margin: 12px 0 6px;
+            color: var(--text);
+        }
+        .project-card__summary {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            margin: 0 0 14px;
+            line-height: 1.5;
+        }
+        .project-card__stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .project-card__stack span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--text-faint);
+            border: 0.5px solid var(--border-soft);
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+    </style>
+</Layout>

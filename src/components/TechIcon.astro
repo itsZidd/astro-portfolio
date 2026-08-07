@@ -1,0 +1,58 @@
+---
+import fs from "node:fs";
+
+/**
+ * Maps a skill/stack label to its simple-icons slug. Labels with no
+ * recognizable brand mark (e.g. "Remote sensing", "RAG systems") are
+ * intentionally omitted — the component renders nothing for them.
+ */
+const slugs: Record<string, string> = {
+    "JavaScript": "javascript",
+    "TypeScript": "typescript",
+    "Go": "go",
+    "Python": "python",
+    "React Native": "react",
+    "React": "react",
+    "Godot": "godotengine",
+    "Expo": "expo",
+    "QGIS": "qgis",
+    "ArcGIS Pro": "arcgis",
+    "Google Earth Engine": "googleearthengine",
+    "LangChain": "langchain",
+};
+
+interface Props {
+    name: string;
+    size?: number | string;
+    class?: string;
+}
+
+const { name, size = 15, class: className } = Astro.props;
+
+// Exact match first; otherwise fall back to a leading-word match so labels
+// like "Expo (managed → EAS dev build)" still pick up the "Expo" icon.
+function findSlug(label: string): string | undefined {
+    if (slugs[label]) return slugs[label];
+    for (const [key, slug] of Object.entries(slugs)) {
+        if (!label.startsWith(key)) continue;
+        const nextChar = label[key.length];
+        if (!nextChar || !/[a-zA-Z0-9]/.test(nextChar)) return slug;
+    }
+    return undefined;
+}
+
+const slug = findSlug(name);
+
+let svg = "";
+if (slug) {
+    const iconPath = new URL(
+        `../../node_modules/simple-icons/icons/${slug}.svg`,
+        import.meta.url,
+    );
+    svg = fs.readFileSync(iconPath, "utf-8").replace(/<title>.*?<\/title>/, "");
+    const attrs = `aria-hidden="true" width="${size}" height="${size}" fill="currentColor"${className ? ` class="${className}"` : ""}`;
+    svg = svg.replace("<svg", `<svg ${attrs}`);
+}
+---
+
+{svg && <Fragment set:html={svg} />}

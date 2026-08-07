@@ -12,6 +12,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.1.6"
+    "astro": "^7.1.6",
+    "lucide-static": "^1.28.0",
+    "simple-icons": "^16.28.0"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
   }
 }

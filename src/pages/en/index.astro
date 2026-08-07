@@ -1,0 +1,15 @@
+---
+import HomeView from "../../views/HomeView.astro";
+---
+
+<HomeView lang="en" />
+
+<script>
+    // "/" is a static redirect to "/en/" (Astro can't detect browser
+    // language per-request on a static build). If this visitor
+    // previously chose Indonesian via the switcher, bounce them there.
+    const preferred = localStorage.getItem("preferred-lang");
+    if (preferred === "id") {
+        window.location.replace("/id/");
+    }
+</script>

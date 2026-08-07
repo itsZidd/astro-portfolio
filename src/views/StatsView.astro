@@ -1,0 +1,133 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TechIcon from "../components/TechIcon.astro";
+import { projects } from "../data/projects.ts";
+import { getTechCounts } from "../lib/tech.ts";
+import { useTranslations, getLocalizedPath } from "../i18n/utils";
+import type { Lang } from "../i18n/config";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const counts = getTechCounts();
+const maxCount = Math.max(1, ...counts.map((c) => c.count));
+const tags = counts.map((c) => ({
+    ...c,
+    // 0 -> used once, 1 -> the most-used tech(es)
+    ratio: maxCount > 1 ? (c.count - 1) / (maxCount - 1) : 0,
+}));
+---
+
+<Layout title={`${t("stats.title")} — M. Zidan Malik`}>
+    <section class="stats">
+        <div class="wrap">
+            <p class="eyebrow">{t("stats.eyebrow")}</p>
+            <h1 class="h-display stats__title">{t("stats.title")}</h1>
+            <p class="stats__intro">{t("stats.intro")}</p>
+
+            {
+                tags.length > 0 && (
+                    <p class="stats__count eyebrow">
+                        {projects.length} {t("stats.projects")} · {tags.length}{" "}
+                        {t("stats.technologies")}
+                    </p>
+                )
+            }
+
+            {
+                tags.length === 0 ? (
+                    <p class="stats__empty">{t("stats.empty")}</p>
+                ) : (
+                    <div class="tag-cloud">
+                        {tags.map((tag) => (
+                            <a
+                                class="tag"
+                                href={getLocalizedPath(lang, `/stats/${tag.slug}`)}
+                                style={`--ratio:${tag.ratio}`}
+                            >
+                                <TechIcon name={tag.name} size={13} />
+                                {tag.name}
+                                <span class="tag__count">{tag.count}</span>
+                            </a>
+                        ))}
+                    </div>
+                )
+            }
+        </div>
+    </section>
+
+    <style>
+        .stats {
+            padding-bottom: 96px;
+        }
+        .stats__title {
+            font-size: clamp(2.4rem, 6vw, 3.8rem);
+            margin: 10px 0 0;
+        }
+        .stats__intro {
+            max-width: 58ch;
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin: 18px 0 0;
+        }
+        .stats__count {
+            margin: 28px 0 0;
+        }
+        .stats__empty {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 40px 0 0;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 12px;
+            margin-top: 20px;
+        }
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: var(--font-mono);
+            font-size: calc(13px + 17px * var(--ratio, 0));
+            line-height: 1;
+            color: color-mix(
+                in srgb,
+                var(--text-secondary) calc(100% - 65% * var(--ratio, 0)),
+                var(--accent) calc(65% * var(--ratio, 0))
+            );
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: 999px;
+            padding: 8px 10px 8px 14px;
+            transition:
+                border-color 0.15s ease,
+                color 0.15s ease,
+                transform 0.15s ease;
+        }
+        .tag:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .tag :global(svg) {
+            flex-shrink: 0;
+        }
+        .tag__count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.6em;
+            font-size: 0.68em;
+            color: var(--text-faint);
+            background: var(--surface-2);
+            border: 0.5px solid var(--border-soft);
+            border-radius: 999px;
+            padding: 0.25em 0.5em;
+        }
+    </style>
+</Layout>
