@@ -43,7 +43,7 @@ export const projects: Project[] = [
         summary:
             "My personal site — a bilingual project showcase built with Astro, including a tech-usage tag cloud that links each tool back to the projects that use it.",
         stack: ["Astro", "TypeScript"],
-        status: "wip",
+        status: "live",
         repoUrl: "https://github.com/itsZidd/astro-portfolio",
     },
 ];

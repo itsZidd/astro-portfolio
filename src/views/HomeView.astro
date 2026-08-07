@@ -107,7 +107,9 @@ const skillGroups = [
                             <ul>
                                 {g.items.map((item) => (
                                     <li>
-                                        <TechIcon name={item} size={15} />
+                                        <span class="tech-slot">
+                                            <TechIcon name={item} size={15} />
+                                        </span>
                                         {item}
                                     </li>
                                 ))}
@@ -280,6 +282,11 @@ const skillGroups = [
             color: var(--text);
             padding: 6px 0;
             border-bottom: 0.5px solid var(--border-soft);
+        }
+        .skills-group .tech-slot {
+            display: inline-flex;
+            width: 15px;
+            flex-shrink: 0;
         }
         .skills-group li :global(svg) {
             flex-shrink: 0;

@@ -89,7 +89,9 @@ function inlineCode(raw: string): string {
                             <ul>
                                 {g.items.map((item) => (
                                     <li>
-                                        <TechIcon name={item} size={14} />
+                                        <span class="tech-slot">
+                                            <TechIcon name={item} size={14} />
+                                        </span>
                                         <span>{item}</span>
                                     </li>
                                 ))}
@@ -227,6 +229,11 @@ function inlineCode(raw: string): string {
             line-height: 1.5;
             padding: 7px 0;
             border-bottom: 0.5px solid var(--border-soft);
+        }
+        .stack-group .tech-slot {
+            display: inline-flex;
+            width: 14px;
+            flex-shrink: 0;
         }
         .stack-group li :global(svg) {
             flex-shrink: 0;
