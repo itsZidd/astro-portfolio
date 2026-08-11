@@ -54,20 +54,41 @@ const localeCodes = Object.keys(languages) as (keyof typeof languages)[];
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
     </head>
     <body>
         <header class="site-header">
             <div class="wrap site-header__inner">
-                <a href={getLocalizedPath(lang, "/")} class="site-header__mark">MZM</a>
+                <a href={getLocalizedPath(lang, "/")} class="site-header__mark">
+                    <span class="status-dot"></span>
+                    <span class="site-header__brand-text">MZM</span>
+                </a>
                 <div class="site-header__right">
                     <nav class="site-header__nav">
-                        {nav.map((item) => <a href={getLocalizedPath(lang, item.href)}>{item.label}</a>)}
+                        {nav.map((item) => (
+                            <a href={getLocalizedPath(lang, item.href)} class="nav-link">
+                                {item.label}
+                            </a>
+                        ))}
                     </nav>
                     <LanguageSwitcher lang={lang} path={pathWithoutLang} />
+                    <button class="burger-btn" id="burger-btn" aria-label="Toggle Menu" aria-expanded="false">
+                        <span class="burger-bar"></span>
+                        <span class="burger-bar"></span>
+                        <span class="burger-bar"></span>
+                    </button>
                 </div>
+            </div>
+            <div class="mobile-menu" id="mobile-menu">
+                <nav class="mobile-menu__nav">
+                    {nav.map((item) => (
+                        <a href={getLocalizedPath(lang, item.href)} class="mobile-menu__link">
+                            {item.label}
+                        </a>
+                    ))}
+                </nav>
             </div>
         </header>
         <main>
@@ -75,33 +96,51 @@ const localeCodes = Object.keys(languages) as (keyof typeof languages)[];
         </main>
         <footer class="site-footer">
             <div class="wrap site-footer__inner">
-                <span class="eyebrow">{t("footer.built")}</span>
-                <span class="eyebrow" id="coord">-7.9666, 112.5183</span>
+                <div class="footer-left">
+                    <span class="eyebrow">{t("footer.built")}</span>
+                </div>
+                <div class="footer-right">
+                    <span class="eyebrow coord-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="geo-icon"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        -7.9666, 112.5183 · Malang
+                    </span>
+                </div>
             </div>
         </footer>
         <style>
             .site-header {
                 position: sticky;
                 top: 0;
-                z-index: 20;
-                background: color-mix(in srgb, var(--bg) 85%, transparent);
-                backdrop-filter: blur(8px);
-                border-bottom: 0.5px solid var(--border-soft);
+                z-index: 100;
+                background: rgba(9, 10, 10, 0.85);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             }
             .site-header__inner {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                height: 60px;
+                height: 64px;
             }
             .site-header__mark {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
                 font-family: var(--font-mono);
                 font-size: 13px;
+                font-weight: 500;
                 letter-spacing: 0.08em;
                 color: var(--text);
-                border: 0.5px solid var(--border);
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid var(--glass-border);
                 border-radius: var(--radius-sm);
-                padding: 4px 8px;
+                padding: 6px 14px;
+                transition: all 0.2s ease;
+            }
+            .site-header__mark:hover {
+                border-color: var(--accent);
+                box-shadow: 0 0 12px var(--glow-emerald);
             }
             .site-header__right {
                 display: flex;
@@ -110,35 +149,196 @@ const localeCodes = Object.keys(languages) as (keyof typeof languages)[];
             }
             .site-header__nav {
                 display: flex;
-                gap: 28px;
+                gap: 24px;
             }
-            .site-header__nav a {
+            .nav-link {
+                position: relative;
                 font-family: var(--font-mono);
                 font-size: 13px;
+                letter-spacing: 0.08em;
                 color: var(--text-secondary);
-                transition: color 0.15s ease;
+                transition: color 0.2s ease;
+                padding-block: 4px;
             }
-            .site-header__nav a:hover {
+            .nav-link:hover {
                 color: var(--accent);
             }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: var(--accent);
+                transition: width 0.25s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+            /* Burger Menu Button */
+            .burger-btn {
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                width: 38px;
+                height: 38px;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                cursor: pointer;
+                padding: 0;
+                transition: all 0.2s ease;
+            }
+            .burger-btn:hover {
+                border-color: var(--accent);
+                background: rgba(151, 196, 89, 0.08);
+            }
+            .burger-bar {
+                width: 18px;
+                height: 2px;
+                background: var(--text);
+                border-radius: 1px;
+                transition: transform 0.25s ease, opacity 0.25s ease;
+            }
+            .burger-btn.is-active .burger-bar:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .burger-btn.is-active .burger-bar:nth-child(2) {
+                opacity: 0;
+            }
+            .burger-btn.is-active .burger-bar:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            /* Mobile Dropdown Menu Drawer */
+            .mobile-menu {
+                display: none;
+                max-height: 0;
+                overflow: hidden;
+                background: rgba(9, 10, 10, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                transition: max-height 0.3s ease, padding 0.3s ease;
+            }
+            .mobile-menu.is-open {
+                display: block;
+                max-height: 280px;
+                padding-bottom: 20px;
+            }
+            .mobile-menu__nav {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding-inline: 20px;
+                padding-top: 12px;
+            }
+            .mobile-menu__link {
+                font-family: var(--font-mono);
+                font-size: 14px;
+                letter-spacing: 0.08em;
+                color: var(--text-secondary);
+                padding: 10px 14px;
+                border-radius: var(--radius-sm);
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                transition: all 0.2s ease;
+            }
+            .mobile-menu__link:hover {
+                color: var(--accent);
+                background: rgba(151, 196, 89, 0.08);
+                border-color: rgba(151, 196, 89, 0.2);
+            }
+
             .site-footer {
-                border-top: 0.5px solid var(--border-soft);
-                margin-top: 96px;
+                border-top: 1px solid var(--border-soft);
+                margin-top: 100px;
+                background: rgba(14, 15, 13, 0.5);
+                backdrop-filter: blur(8px);
             }
             .site-footer__inner {
                 display: flex;
                 justify-content: space-between;
-                padding-block: 28px;
+                align-items: center;
+                padding-block: 32px;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .coord-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                color: var(--accent);
+                background: rgba(151, 196, 89, 0.06);
+                border: 1px solid rgba(151, 196, 89, 0.15);
+                padding: 4px 10px;
+                border-radius: 999px;
+            }
+            .geo-icon {
+                color: var(--accent);
             }
 
-            @media (max-width: 560px) {
-                .site-header__right {
-                    gap: 14px;
+            @media (max-width: 640px) {
+                .site-header {
+                    position: sticky !important;
+                    top: 0 !important;
+                    z-index: 100 !important;
+                }
+                .site-header__inner {
+                    height: 64px !important;
                 }
                 .site-header__nav {
-                    gap: 16px;
+                    display: none !important;
+                }
+                .burger-btn {
+                    display: flex !important;
+                }
+                .site-header__right {
+                    gap: 12px !important;
+                }
+
+                /* Center Footer on Small Screen */
+                .site-footer__inner {
+                    flex-direction: column !important;
+                    justify-content: center !important;
+                    align-items: center !important;
+                    text-align: center !important;
+                    gap: 16px !important;
+                    padding-block: 28px !important;
+                }
+                .footer-left,
+                .footer-right {
+                    display: flex !important;
+                    justify-content: center !important;
+                    align-items: center !important;
+                    text-align: center !important;
+                    width: 100% !important;
                 }
             }
         </style>
+        <script>
+            const burgerBtn = document.getElementById("burger-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+
+            if (burgerBtn && mobileMenu) {
+                burgerBtn.addEventListener("click", () => {
+                    const isOpen = burgerBtn.classList.toggle("is-active");
+                    mobileMenu.classList.toggle("is-open", isOpen);
+                    burgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+                });
+
+                document.querySelectorAll(".mobile-menu__link").forEach((link) => {
+                    link.addEventListener("click", () => {
+                        burgerBtn.classList.remove("is-active");
+                        mobileMenu.classList.remove("is-open");
+                        burgerBtn.setAttribute("aria-expanded", "false");
+                    });
+                });
+            }
+        </script>
     </body>
 </html>

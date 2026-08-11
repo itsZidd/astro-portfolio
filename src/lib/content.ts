@@ -21,7 +21,7 @@ function isValidProject(p: unknown): p is Project {
     typeof obj.slug === "string" &&
     typeof obj.file === "string" &&
     typeof obj.title === "string" &&
-    typeof obj.category === "string" &&
+    (typeof obj.category === "string" || Array.isArray(obj.category)) &&
     typeof obj.summary === "string" &&
     Array.isArray(obj.stack) &&
     typeof obj.status === "string"

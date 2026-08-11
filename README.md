@@ -22,13 +22,15 @@ Live at: not yet deployed — see [Known Issues](#known-issues).
 src/
 ├── pages/en, pages/id   # routes per locale (mirrored 1:1)
 ├── views/                # page bodies, one per route, imported by both locale pages
-├── components/           # Layout, Icon, TechIcon, LanguageSwitcher, ContourField
+├── components/           # Layout, CaseStudyLayout, Icon, TechIcon, LanguageSwitcher, ContourField
 ├── data/projects.ts      # canonical project data (single source of truth)
 ├── content/              # long-form per-project case-study copy
 ├── i18n/                 # ui.ts dictionary, routing utils, per-project translation overrides
-├── lib/                  # tech.ts (stats tallying), content.ts (unused content-repo fetch)
+├── lib/                  # tech.ts (stats tallying), icons.ts (tech-logo matching), content.ts (unused content-repo fetch)
 └── styles/global.css     # design tokens and base styles
 ```
+
+Project case-study pages (`views/*View.astro`) share a single `components/CaseStudyLayout.astro` — each view just supplies its content (pitch, feature/tech groups, links, optional screenshots) and the layout handles the shared shell, styling, and conditional sections (a project with no screenshots or download link simply doesn't pass those props).
 
 ## Development
 
@@ -46,8 +48,6 @@ npm run dev
 
 ## Known issues
 
-- **Production build is broken.** `astro build` throws on any page using `Icon` or `TechIcon` (`src/components/Icon.astro`, `src/components/TechIcon.astro`) — they resolve SVGs via `fs.readFileSync` relative to `import.meta.url` at render time, which resolves correctly in `astro dev` but not once Astro bundles those components for a static build. See the [Astro Portfolio case study](https://github.com/itsZidd/astro-portfolio) on the site itself for the full writeup. `astro dev` is unaffected.
-- Only two projects are logged so far, so `/stats` has little to size against.
 - `src/lib/content.ts` (fetching project data from a separate content repo at build time) exists but isn't wired into any page yet — every page still imports `src/data/projects.ts` directly.
 
 ## Documentation

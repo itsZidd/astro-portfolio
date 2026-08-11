@@ -4,6 +4,7 @@ import ContourField from "../components/ContourField.astro";
 import Icon from "../components/Icon.astro";
 import TechIcon from "../components/TechIcon.astro";
 import { projects } from "../data/projects.ts";
+import { getTechCounts } from "../lib/tech.ts";
 import { useTranslations, getLocalizedPath, getProjectText } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
 
@@ -12,6 +13,7 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const techCount = getTechCounts().length;
 
 const skillGroups = [
     {
@@ -45,49 +47,133 @@ const skillGroups = [
         ],
     },
 ];
+
+const categories = [
+    { id: "all", label: t("filter.all") },
+    { id: "Software", label: t("filter.software") },
+    { id: "GIS & Geospatial", label: t("filter.gis") },
+    { id: "AI / ML", label: t("filter.aiml") },
+];
 ---
 
 <Layout title="M. Zidan Malik — Software Developer & Geographer">
     <section class="hero">
-        <ContourField seed={23} levels={13} opacity={0.55} />
+        <ContourField seed={23} levels={15} opacity={0.6} />
         <div class="wrap hero__inner">
-            <p class="eyebrow">-7.9666, 112.5183</p>
+            <div class="hero__badge-row">
+                <span class="hero__badge hero__location-badge">
+                    <span class="status-dot"></span>
+                    <span>{t("hero.badge")}</span>
+                </span>
+                <span class="hero__badge hero__available-badge">
+                    <span>{t("hero.available")}</span>
+                </span>
+            </div>
+
             <h1 class="h-display hero__name">M. Zidan Malik</h1>
             <p class="hero__role">{t("hero.role")}</p>
             <p class="hero__intro">{t("hero.intro")}</p>
+
+            <div class="hero__actions">
+                <a href="#work" class="btn btn-primary">
+                    <Icon name="arrow-right" size={14} />
+                    {t("hero.cta_work")}
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <Icon name="mail" size={14} />
+                    {t("hero.cta_contact")}
+                </a>
+            </div>
+
+            <div class="hero__stats">
+                <div class="hero__stat">
+                    <span class="hero__stat-value">{projects.length}</span>
+                    <span class="hero__stat-label">{t("hero.stat_projects")}</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-value">{techCount}+</span>
+                    <span class="hero__stat-label">{t("hero.stat_tech")}</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-value">GIS + Dev</span>
+                    <span class="hero__stat-label">{t("hero.stat_focus")}</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="work" class="work">
         <div class="wrap">
-            <h2 class="section-title">{t("work.title")}</h2>
-            <div class="project-grid">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow">Portfolio</span>
+                    <h2 class="section-title">{t("work.title")}</h2>
+                </div>
+
+                <div class="category-filters" id="category-filters">
+                    {categories.map((cat) => (
+                        <button
+                            type="button"
+                            class:list={["filter-btn", { active: cat.id === "all" }]}
+                            data-category={cat.id}
+                        >
+                            {cat.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div class="project-grid" id="project-grid">
                 {
                     projects.map((p) => {
                         const text = getProjectText(lang, p);
                         return (
-                            <a class="project-card" href={getLocalizedPath(lang, `/work/${p.slug}`)}>
-                                <div class="project-card__top">
-                                    <span class="project-card__file">{p.file}</span>
-                                    <span
-                                        class={`project-card__status project-card__status--${p.status}`}
-                                    >
-                                        {p.status === "live"
-                                            ? t("status.live")
-                                            : t("status.progress")}
-                                    </span>
-                                </div>
-                                <h3 class="project-card__title">{text.title}</h3>
-                                <p class="project-card__summary">{text.summary}</p>
-                                <div class="project-card__stack">
-                                    {p.stack.map((s) => (
-                                        <span>
-                                            <TechIcon name={s} size={12} />
-                                            {s}
+                            <div class="project-card-wrapper" data-category={Array.isArray(p.category) ? p.category.join(",") : p.category}>
+                                <a class="project-card glass-panel" href={getLocalizedPath(lang, `/work/${p.slug}`)}>
+                                    <div class="project-card__top">
+                                        <div class="project-card__id">
+                                            <span class="project-card__file">{p.file}</span>
+                                            <span class="project-card__date">{p.date}</span>
+                                        </div>
+                                        <span
+                                            class={`project-card__status project-card__status--${p.status}`}
+                                        >
+                                            <span class="status-dot"></span>
+                                            <span>
+                                                {p.status === "live"
+                                                    ? t("status.live")
+                                                    : t("status.progress")}
+                                            </span>
                                         </span>
-                                    ))}
-                                </div>
-                            </a>
+                                    </div>
+
+                                    <div class="project-card__body">
+                                        <span class="project-card__category">{Array.isArray(p.category) ? p.category.join(" · ") : p.category}</span>
+                                        <h3 class="project-card__title">{text.title}</h3>
+                                        <p class="project-card__summary">{text.summary}</p>
+                                    </div>
+
+                                    <div class="project-card__bottom">
+                                        <div class="project-card__stack">
+                                            {p.stack.map((s) => (
+                                                <span class="tech-chip">
+                                                    <TechIcon name={s} size={12} />
+                                                    {s}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div class="project-card__action-row">
+                                            <span class="project-card__action">
+                                                {t("work.details")}
+                                                <Icon name="arrow-right" size={13} />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         );
                     })
                 }
@@ -97,20 +183,25 @@ const skillGroups = [
 
     <section id="about" class="about">
         <div class="wrap">
+            <span class="eyebrow">Background</span>
             <h2 class="section-title">{t("about.title")}</h2>
             <p class="about__text">{t("about.text")}</p>
+
             <div class="skills-grid">
                 {
                     skillGroups.map((g) => (
-                        <div class="skills-group">
-                            <p class="eyebrow">{g.label}</p>
+                        <div class="skills-group glass-panel">
+                            <h3 class="skills-group__title">
+                                <span class="skills-group__bullet"></span>
+                                {g.label}
+                            </h3>
                             <ul>
                                 {g.items.map((item) => (
                                     <li>
                                         <span class="tech-slot">
-                                            <TechIcon name={item} size={15} />
+                                            <TechIcon name={item} size={16} />
                                         </span>
-                                        {item}
+                                        <span class="tech-name">{item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -123,22 +214,35 @@ const skillGroups = [
 
     <section id="contact" class="contact">
         <div class="wrap">
-            <h2 class="section-title">{t("contact.title")}</h2>
-            <p class="about__text">{t("contact.text")}</p>
-            <div class="contact__links">
-                <a href="mailto:mziddanmalik@gmail.com" class="contact__link">
-                    <Icon name="mail" size={15} />
-                    mziddanmalik@gmail.com
-                </a>
-                <a
-                    href="https://github.com/itsZidd"
-                    class="contact__link"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <Icon name="square-arrow-out-up-right" size={15} />
-                    github.com/itsZidd
-                </a>
+            <div class="contact-card glass-panel">
+                <div class="contact-card__content">
+                    <span class="eyebrow">Get In Touch</span>
+                    <h2 class="contact-card__title">{t("contact.title")}</h2>
+                    <p class="contact-card__text">{t("contact.text")}</p>
+
+                    <div class="contact__actions">
+                        <button
+                            id="copy-email-btn"
+                            class="btn btn-primary"
+                            data-email="mziddanmalik@gmail.com"
+                            data-label-copy={t("contact.copy")}
+                            data-label-copied={t("contact.copied")}
+                        >
+                            <Icon name="mail" size={15} />
+                            <span id="copy-email-label">{t("contact.copy")}</span>
+                        </button>
+
+                        <a
+                            href="https://github.com/itsZidd"
+                            class="btn btn-secondary"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <Icon name="square-arrow-out-up-right" size={15} />
+                            github.com/itsZidd
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -148,182 +252,520 @@ const skillGroups = [
             position: relative;
             min-height: 620px;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             overflow: hidden;
-            border-bottom: 0.5px solid var(--border-soft);
+            border-bottom: 1px solid var(--border-soft);
+            padding-block: 72px 56px;
         }
         .hero__inner {
             position: relative;
             z-index: 1;
-            padding-block: 48px 64px;
+            width: 100%;
+        }
+        .hero__badge-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            line-height: 1;
+        }
+        .hero__location-badge {
+            color: var(--accent);
+            background: rgba(151, 196, 89, 0.08);
+            border: 1px solid rgba(151, 196, 89, 0.22);
+        }
+        .hero__available-badge {
+            color: var(--amber-300);
+            background: rgba(239, 159, 39, 0.08);
+            border: 1px solid rgba(239, 159, 39, 0.22);
         }
         .hero__name {
-            font-size: clamp(3.2rem, 9vw, 6.5rem);
-            margin: 10px 0 0;
+            font-size: clamp(3.2rem, 8vw, 6rem);
+            margin: 0;
             color: var(--text);
+            letter-spacing: -0.01em;
+            background: linear-gradient(180deg, #ffffff 40%, rgba(244, 243, 236, 0.75) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .hero__role {
-            font-family: var(--font-mono);
-            font-size: 15px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 18px;
             color: var(--accent-strong);
-            margin: 14px 0 0;
+            margin: 16px 0 0;
+            letter-spacing: 0.02em;
         }
         .hero__intro {
-            max-width: 46ch;
+            max-width: 58ch;
             color: var(--text-secondary);
-            margin: 16px 0 0;
-            font-size: 16px;
+            margin: 20px 0 0;
+            font-size: 16.5px;
+            line-height: 1.65;
+        }
+        .hero__actions {
+            margin-top: 32px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
+        .hero__stats {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+        }
+        .hero__stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hero__stat-value {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--text);
+            line-height: 1;
+            display: block;
+        }
+        .hero__stat-label {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            display: block;
+        }
+        .hero__stat-divider {
+            width: 1px;
+            height: 36px;
+            background: var(--border-soft);
+        }
+
+        .work {
+            padding-block: 80px 60px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
         .section-title {
             font-family: var(--font-display);
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.02em;
-            font-size: 1.5rem;
+            letter-spacing: 0.03em;
+            font-size: 2.4rem;
             color: var(--text);
-            margin: 0 0 28px;
-            padding-top: 72px;
+            margin: 6px 0 0;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-soft);
+            padding: 5px;
+            border-radius: var(--radius);
+        }
+        .filter-btn {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 7px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            color: var(--text);
+        }
+        .filter-btn.active {
+            background: var(--green-900);
+            color: var(--green-100);
+            border-color: var(--green-700);
+            font-weight: 500;
         }
 
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+        .project-card-wrapper {
+            display: flex;
+            height: 100%;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .project-card {
-            display: block;
-            background: var(--surface);
-            border: 0.5px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            transition:
-                border-color 0.15s ease,
-                transform 0.15s ease;
-        }
-        .project-card:hover {
-            border-color: var(--green-300);
-            transform: translateY(-2px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            padding: 24px;
         }
         .project-card__top {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .project-card__id {
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-width: 0;
         }
         .project-card__file {
             font-family: var(--font-mono);
-            font-size: 12px;
+            font-size: 11.5px;
+            letter-spacing: 0.07em;
             color: var(--green-100);
+            background: rgba(151, 196, 89, 0.08);
+            border: 1px solid rgba(151, 196, 89, 0.18);
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 65%;
+        }
+        .project-card__date {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: var(--text-faint);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .project-card__status {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 0.5px solid var(--border);
-            color: var(--text-faint);
-        }
-        .project-card__status--live {
-            color: var(--green-100);
-            border-color: var(--green-500);
-        }
-        .project-card__title {
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 17px;
-            margin: 12px 0 6px;
-            color: var(--text);
-        }
-        .project-card__summary {
-            font-size: 13.5px;
-            color: var(--text-secondary);
-            margin: 0 0 14px;
-            line-height: 1.5;
-        }
-        .project-card__stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .project-card__stack span {
             display: inline-flex;
             align-items: center;
             gap: 5px;
             font-family: var(--font-mono);
             font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
             color: var(--text-faint);
-            border: 0.5px solid var(--border-soft);
-            border-radius: 4px;
-            padding: 2px 6px;
+            background: rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+            align-self: flex-start;
         }
-
-        .about__text {
-            max-width: 62ch;
-            color: var(--text-secondary);
-            font-size: 15px;
+        .project-card__status--live {
+            color: var(--green-100);
+            border-color: rgba(151, 196, 89, 0.3);
+            background: rgba(151, 196, 89, 0.06);
         }
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-        .skills-group ul {
-            list-style: none;
-            margin: 10px 0 0;
-            padding: 0;
-        }
-        .skills-group li {
+        .project-card__body {
+            flex: 1 1 auto;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .project-card__category {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            color: var(--amber-300);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .project-card__title {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 700;
             color: var(--text);
-            padding: 6px 0;
-            border-bottom: 0.5px solid var(--border-soft);
+            margin: 0 0 10px;
+            line-height: 1.35;
         }
-        .skills-group .tech-slot {
-            display: inline-flex;
-            width: 15px;
-            flex-shrink: 0;
+        .project-card__summary {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+            text-align: justify;
+            text-justify: inter-word;
+            flex-grow: 1;
         }
-        .skills-group li :global(svg) {
-            flex-shrink: 0;
-            color: var(--text-faint);
-        }
-
-        .contact {
-            padding-bottom: 40px;
-        }
-        .contact__links {
+        .project-card__bottom {
+            margin-top: auto;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-soft);
             display: flex;
-            gap: 24px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 16px;
         }
-        .contact__link {
+        .project-card__stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 56px;
+            align-content: flex-start;
+        }
+        .tech-chip {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--accent);
-            border-bottom: 0.5px solid var(--green-500);
-            padding-bottom: 2px;
+            font-size: 11.5px;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 4px 10px;
+            height: fit-content;
         }
-        .contact__link:hover {
+        .project-card__action-row {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .project-card__action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            font-weight: 500;
+            transition: gap 0.2s ease;
+        }
+        .project-card:hover .project-card__action {
+            gap: 10px;
             color: var(--accent-strong);
-            border-color: var(--amber-300);
+        }
+
+        .about {
+            padding-block: 60px;
+        }
+        .about__text {
+            max-width: 64ch;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.65;
+            margin-top: 8px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 36px;
+            align-items: stretch;
+        }
+        .skills-group {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 24px;
+        }
+        .skills-group__title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--accent);
+            margin: 0 0 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .skills-group__bullet {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .skills-group ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .skills-group li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14.5px;
+            color: var(--text);
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-sm);
+        }
+        .skills-group .tech-slot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: rgba(151, 196, 89, 0.1);
+            border-radius: 4px;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .contact {
+            padding-block: 60px 40px;
+        }
+        .contact-card {
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            background: radial-gradient(circle at 100% 0%, rgba(29, 158, 117, 0.12) 0%, rgba(18, 20, 17, 0.85) 70%);
+        }
+        .contact-card__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin: 8px 0;
+            color: var(--text);
+        }
+        .contact-card__text {
+            max-width: 56ch;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .contact__actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         @media (max-width: 640px) {
             .hero {
-                min-height: 520px;
+                min-height: auto;
+                padding-block: 36px 32px;
             }
-            .hero__inner {
-                padding-block: 32px 40px;
+            .hero__badge {
+                font-size: 11px;
+                max-width: 100%;
+                white-space: normal;
+                word-break: break-word;
+                line-height: 1.4;
+                padding: 6px 12px;
+            }
+            .hero__stats {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px 16px;
+                margin-top: 32px;
+                padding-top: 24px;
+                width: 100%;
+            }
+            .hero__stat {
+                min-width: 0;
+            }
+            .hero__stat-value {
+                font-size: 1.6rem;
+            }
+            .hero__stat-label {
+                font-size: 11px;
+                white-space: normal;
+                word-break: break-word;
+                line-height: 1.3;
+            }
+            .hero__stat-divider {
+                display: none;
+            }
+            .contact-card {
+                padding: 20px;
             }
         }
     </style>
+
+    <script>
+        // Category filtering logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            const projectCards = document.querySelectorAll<HTMLElement>(".project-card-wrapper");
+
+            filterBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    filterBtns.forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const category = btn.getAttribute("data-category");
+
+                    projectCards.forEach((card) => {
+                        const cardCatStr = card.getAttribute("data-category") || "";
+                        const cardCatList = cardCatStr.split(",").map((c) => c.trim());
+                        if (category === "all" || cardCatList.includes(category)) {
+                            card.style.display = "flex";
+                            setTimeout(() => {
+                                card.style.opacity = "1";
+                                card.style.transform = "scale(1)";
+                            }, 50);
+                        } else {
+                            card.style.opacity = "0";
+                            card.style.transform = "scale(0.96)";
+                            setTimeout(() => {
+                                card.style.display = "none";
+                            }, 250);
+                        }
+                    });
+                });
+            });
+
+            // Email Copy Logic
+            const copyBtn = document.getElementById("copy-email-btn");
+            const copyLabel = document.getElementById("copy-email-label");
+
+            if (copyBtn && copyLabel) {
+                copyBtn.addEventListener("click", () => {
+                    const email = copyBtn.getAttribute("data-email") || "mziddanmalik@gmail.com";
+                    const copiedText = copyBtn.getAttribute("data-label-copied") || "Copied to Clipboard!";
+                    const originalText = copyBtn.getAttribute("data-label-copy") || "Copy Email";
+
+                    navigator.clipboard.writeText(email).then(() => {
+                        copyLabel.textContent = copiedText;
+                        copyBtn.classList.add("btn-primary");
+                        setTimeout(() => {
+                            copyLabel.textContent = originalText;
+                        }, 2500);
+                    });
+                });
+            }
+        });
+    </script>
 </Layout>

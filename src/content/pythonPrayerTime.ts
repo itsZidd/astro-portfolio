@@ -118,117 +118,117 @@ export const pythonPrayerTimeContent = {
 
     id: {
         eyebrow: "perangkat lunak · python",
-        pitch: "API web FastAPI dan CLI yang menghitung waktu salat berdasarkan astronomi matahari mentah — tanggal Julian, deklinasi matahari, sudut jam — dibangun khusus untuk mempelajari perhitungan ini dari dasar sebelum diporting ke kalkulator aplikasi mobile Prayer Time berbasis React Native. Secara otomatis mendeteksi metode perhitungan maupun zona waktu dari koordinat mentah, dan menerapkan lima strategi fallback lintang tinggi yang berbeda untuk lokasi di mana rumus sudut matahari standar tidak memiliki solusi.",
+        pitch: "Sebuah aplikasi API web berbasis FastAPI dan antarmuka CLI yang menghitung waktu salat berdasarkan posisi astronomi matahari mentah secara langsung — mencakup konversi tanggal Julian, perhitungan deklinasi matahari, serta kalkulasi sudut jam. Aplikasi ini dibangun dari prinsip dasar matematis untuk memahami algoritma kalkulasi secara mendalam sebelum diporting ke modul kalkulator React Native pada aplikasi mobile Prayer Time. Sistem ini secara otomatis mendeteksi metode kalkulasi terbaik dan zona waktu dari koordinat lokasi mentah, serta mengimplementasikan lima strategi fallback lintang tinggi untuk wilayah kutub di mana rumus sudut matahari standar tidak memiliki solusi matematis.",
 
         featureGroups: [
             {
-                label: "Mesin perhitungan",
+                label: "Mesin Kalkulasi Astronomi",
                 items: [
-                    "17 metode perhitungan bawaan (MWL, ISNA, Mesir, KEMENAG, Singapura, JAKIM, Makkah, Qatar, Kuwait, Dubai, Teheran, Turki, Prancis, Rusia, London, Karachi) dengan pemilihan metode otomatis berdasarkan negara",
-                    "Alur perhitungan lengkap tanggal Julian → deklinasi matahari → sudut jam yang menghasilkan Fajr hingga Isya plus Tengah Malam dan Imsak",
-                    "Dukungan mazhab Asar Standar vs. Hanafi",
+                    "17 metode kalkulasi bawaan internasional (MWL, ISNA, Mesir, KEMENAG, Singapura, JAKIM, Makkah, Qatar, Kuwait, Dubai, Teheran, Turki, Prancis, Rusia, London, Karachi) dengan pemilihan metode otomatis berdasar kode negara.",
+                    "Alur kalkulasi lengkap: tanggal Julian → deklinasi matahari → sudut jam yang menghasilkan waktu Subuh, Terbit, Dzuhur, Asar, Maghrib, Isya, serta Tengah Malam dan Imsak.",
+                    "Dukungan penuh untuk penyesuaian mazhab Asar (metode Standar vs. Hanafi).",
                 ],
             },
             {
-                label: "Penanganan lintang tinggi",
+                label: "Penanganan Wilayah Lintang Tinggi",
                 items: [
-                    "Lima aturan fallback untuk lokasi di mana rumus sudut matahari standar tidak memiliki solusi: SEVENTH_OF_NIGHT, MIDDLE_OF_NIGHT, NEAREST_LATITUDE, TWILIGHT_ANGLE, dan NEAREST_DAY (Aqrab al-Ayyam)",
-                    "NEAREST_DAY mencari ke luar hari demi hari untuk menemukan tanggal terdekat dengan solusi valid, mempertahankan waktu tersebut selama periode senja tetap berlangsung, lalu otomatis kembali ke perhitungan harian yang sesungguhnya",
-                    "Lokasi matahari tengah malam sejati dengan benar mengembalikan N/A alih-alih waktu buatan — lihat Keterbatasan yang Diketahui",
+                    "Lima aturan fallback untuk lokasi kutub di mana rumus sudut matahari standar tidak menghasilkan solusi: SEVENTH_OF_NIGHT, MIDDLE_OF_NIGHT, NEAREST_LATITUDE, TWILIGHT_ANGLE, dan NEAREST_DAY (Aqrab al-Ayyam).",
+                    "Aturan NEAREST_DAY secara iteratif menelusuri tanggal terdekat yang memiliki solusi valid, mempertahankan jadwal stabil selama periode senja abadi, lalu kembali ke kalkulasi harian biasa secara otomatis.",
+                    "Lokasi dengan fenomena matahari tengah malam sejati (polar day) secara akurat mengembalikan respon N/A alih-alih menampilkan waktu buatan yang menyesatkan.",
                 ],
             },
             {
-                label: "Antarmuka",
+                label: "Antarmuka Layanan & API",
                 items: [
-                    "Server web FastAPI dengan dokumentasi OpenAPI interaktif di /docs, mendeteksi zona waktu dan negara otomatis dari koordinat mentah",
-                    "Sudah di-deploy dan live di Vercel — /docs bisa langsung dicoba di browser tanpa setup lokal",
-                    "Pencarian kota di /times (?city=Jakarta) sebagai alternatif lat/lng, di-resolve secara offline terhadap dataset ~34 ribu kota dengan disambiguasi eksplisit lewat parameter country opsional",
-                    "CLI main.py untuk perhitungan cepat lewat terminal, tanpa perlu menjalankan server",
+                    "Server web FastAPI dengan dokumentasi OpenAPI interaktif pada rute /docs, secara otomatis menentukan zona waktu dan negara dari koordinat latitude/longitude.",
+                    "Sudah ter-deploy secara live di Vercel — dokumentasi interaktif di /docs dapat diuji langsung dari peramban web tanpa instalasi lokal.",
+                    "Fitur pencarian nama kota pada endpoint /times (?city=Jakarta) sebagai alternatif koordinat, di-resolve offline menggunakan dataset ~34.000 kota dunia.",
+                    "Antarmuka CLI pada main.py untuk kalkulasi instan langsung dari terminal tanpa perlu menjalankan server web.",
                 ],
             },
             {
-                label: "Pengujian & verifikasi",
+                label: "Pengujian & Verifikasi Presisi",
                 items: [
-                    "26 tes pytest: penjaga regresi terhadap dua bug di bawah, validasi input, resolusi/disambiguasi pencarian kota, dan kasus tepi lintang tinggi",
-                    "Diperiksa silang terhadap 11 lokasi dunia nyata yang mencakup setiap benua dan kedua belahan bumi, 5 metode perhitungan, dan 3 offset zona waktu tidak lazim (termasuk UTC+5:30, UTC+5:45), cocok dengan referensi independen yang dipublikasikan hingga selisih 1-3 menit",
+                    "Pengujian regresi otomatis dengan 26 suite test pytest: menguji validasi input, pencarian kota, resolusi zona waktu, serta kasus tepi lintang tinggi.",
+                    "Divalidasi silang terhadap 11 lokasi acuan dunia di seluruh benua dan belahan bumi, 5 metode kalkulasi utama, serta 3 offset zona waktu unik (seperti UTC+5:30 dan UTC+5:45), menghasilkan kecocokan hingga selisih 1–3 menit dari referensi resmi.",
                 ],
             },
         ],
 
         stackGroups: [
             {
-                label: "Inti",
-                items: ["Python", "FastAPI", "Uvicorn"],
+                label: "Inti Framework",
+                items: ["Python 3.11+", "FastAPI", "Uvicorn"],
             },
             {
-                label: "Perhitungan",
+                label: "Kalkulasi Astronomi",
                 items: [
-                    "Astronomi deklinasi matahari / sudut jam kustom — implementasi sendiri, tanpa library waktu salat pihak ketiga",
+                    "Algoritma deklinasi matahari & sudut jam kustom — implementasi mandiri dari dasar tanpa library pihak ketiga.",
                 ],
             },
             {
-                label: "Lokasi & waktu",
+                label: "Geolokasi & Waktu",
                 items: [
-                    "reverse_geocode untuk pencarian negara dari koordinat",
-                    "geonamescache untuk pencarian nama kota secara offline (~34 ribu tempat berpenduduk)",
-                    "tzfpy + tzdata untuk resolusi zona waktu offline lewat zoneinfo",
-                    "country_converter untuk normalisasi kode negara",
+                    "reverse_geocode untuk pencarian negara berbasis koordinat",
+                    "geonamescache untuk pencarian nama kota offline (~34.000 kota berpenduduk)",
+                    "tzfpy + tzdata untuk resolusi zona waktu cepat via zoneinfo",
+                    "country_converter untuk normalisasi standar kode negara ISO",
                 ],
             },
             {
-                label: "Pengujian",
-                items: ["pytest + httpx — 26 tes mencakup lapisan kalkulator dan API"],
+                label: "Pengujian Regresi",
+                items: ["pytest + httpx — 26 pengujian mencakup logika kalkulator dan endpoint API"],
             },
             {
                 label: "Deployment",
-                items: ["Vercel"],
+                items: ["Vercel Serverless"],
             },
         ],
 
-        studyTitle: "Studi Kasus: Menemukan dan Memperbaiki Dua Bug Lintang Tinggi yang Tersembunyi",
+        studyTitle: "Studi Kasus Rekayasa: Menemukan & Memperbaiki Bug Lintang Tinggi yang Tersembunyi",
         story: [
             {
-                label: "Sinyal pertama",
-                body: "Mesin perhitungan lolos pengujian santai selama berbulan-bulan — setiap kota berlintang rendah dan menengah selalu cocok. Bug-bug ini baru muncul ke permukaan setelah aplikasi mobile pendamping (porting TypeScript dari kalkulator yang sama) diuji secara intensif terhadap referensi waktu salat independen yang dipublikasikan, untuk kota-kota yang belum tercakup dalam pengujian awal. Tromsø, Norwegia pada bulan Juli mengembalikan waktu Fajr sebelum Maghrib pada malam yang sama — jelas keliru, karena Fajr seharusnya adalah fajar hari berikutnya.",
+                label: "Indikasi Awal dari Pengujian Intensif",
+                body: "Mesin kalkulasi astronomi ini telah lolos pengujian casual selama berbulan-bulan — setiap uji coba pada kota-kota berlintang rendah dan menengah (seperti Jakarta atau Riyadh) selalu menghasilkan jadwal yang cocok dengan referensi resmi. Namun bug tersembunyi baru terungkap ketika porting kalkulator ini ke aplikasi mobile React Native diuji secara intensif menggunakan dataset acuan kota-kota lintang tinggi di Eropa Utara. Saat menguji kota Tromsø di Norwegia pada bulan Juli, sistem mengembalikan waktu Subuh yang jatuh sebelum waktu Maghrib malam sebelumnya — sebuah kalkulasi yang jelas keliru karena Subuh seharusnya merupakan waktu fajar pada keesokan harinya.",
             },
             {
-                label: "Akar masalah: dua bug terpisah",
-                body: "Menelusuri `resolve_time()`, bug pertama adalah variabel yang salah label: `night_duration = 2 * ha_sun` sebenarnya menghitung panjang siang, bukan malam (`ha_sun` adalah sudut jam dari tengah hari matahari hingga terbenam, sehingga menggandakannya justru mencakup seluruh periode siang). Di Tromsø pada bulan Juli, ini menggelembungkan 'durasi malam' menjadi lebih dari 21 jam padahal malam sesungguhnya hanya ~2,5 jam — angka ini langsung masuk ke perhitungan offset fallback Fajr/Isya. Bug kedua lebih berdampak: sebuah safety clamp yang seharusnya hanya untuk kasus tepi ekstrem justru berjalan tanpa syarat pada setiap perhitungan untuk semua aturan kecuali `NEAREST_LATITUDE`, diam-diam menimpa hasil mentah yang sebenarnya sudah benar setiap kali dinilai terlalu jauh dari waktu matahari terbit/terbenam. New York City (40.7°LU) pada bulan Juli sama sekali tidak memiliki masalah lintang tinggi yang sesungguhnya, namun clamp tersebut tetap menggantikan nilai yang benar dengan nilai yang keliru.",
+                label: "Analisis Penelusuran Akar Masalah Bug Dualitas",
+                body: "Melalui penelusuran alur fungsi `resolve_time()`, ditemukan dua bug terpisah yang saling tumpang tindih. Bug pertama merupakan kesalahan pelabelan variabel matematika: `night_duration = 2 * ha_sun` sebenarnya menghitung durasi siang hari (`ha_sun` adalah sudut jam dari tengah hari matahari hingga terbenam). Di Tromsø pada bulan Juli, kesalahan ini menggelembungkan 'durasi malam' menjadi 21 jam padahal malam sesungguhnya hanya berlangsung ~2,5 jam — angka salah ini langsung masuk ke rumus offset Subuh dan Isya. Bug kedua adalah pengaplikasian clamp pembatas yang berjalan tanpa syarat pada seluruh aturan kecuali `NEAREST_LATITUDE`, secara diam-diam menimpa kalkulasi mentah yang sebenarnya sudah akurat. Pada kota New York (40.7°LU) di bulan Juli yang tidak memiliki masalah lintang tinggi, clamp ini justru menimpa hasil yang benar dengan angka yang keliru.",
             },
             {
-                label: "Memastikan perbaikan, bukan sekadar jawaban berbeda",
-                body: "Kedua perbaikan diverifikasi lewat empat cara: menjalankan ulang kota-kota uji yang sama melalui porting TypeScript paralel dan memastikan hasilnya identik; memeriksa silang terhadap kalkulator independen yang dipublikasikan untuk kota-kota yang belum pernah dipakai selama pengembangan awal (New York, Winnipeg, Doha, Mumbai, Kathmandu, Nairobi), cocok hingga selisih 1-3 menit — variansi normal antar implementasi independen; memverifikasi bahwa kota-kota yang sebelumnya sudah benar (Jakarta, Riyadh) tidak berubah sama sekali; dan mengunci semuanya dalam rangkaian tes regresi pytest agar kedua bug tidak bisa muncul kembali secara diam-diam.",
+                label: "Metodologi Verifikasi Perbaikan Presisi",
+                body: "Perbaikan kedua bug tersebut diverifikasi melalui empat tahap pengujian ketat: (1) menjalankan ulang uji coba pada porting TypeScript paralel untuk memastikan output numerik yang identik; (2) memeriksa silang terhadap data rujukan independen pada kota-kota di berbagai belahan bumi (New York, Winnipeg, Doha, Mumbai, Kathmandu, Nairobi) yang menunjukkan tingkat presisi selisih 1–3 menit; (3) memverifikasi bahwa kalkulasi kota berlintang normal (Jakarta, Riyadh) byte-for-byte tidak mengalami perubahan; serta (4) mengunci seluruh skenario kasus ke dalam suite pengujian regresi pytest agar bug tidak muncul kembali.",
             },
             {
-                label: "Celah lanjutan",
-                body: "Meninjau ulang perbaikan ini memunculkan celah desain terkait: string `high_latitude_rule` yang tidak dikenali diam-diam meruntuhkan Fajr menjadi waktu Terbit dan Isya menjadi Maghrib tanpa error apa pun, karena perhitungan offset jatuh melewati semua cabang ke nilai default `0`. Keluaran itu terlihat masuk akal — sebuah waktu yang nyata, hanya saja keliru — persis jenis kegagalan yang mudah bersembunyi di produksi. Diperbaiki dengan validasi dini saat konstruksi objek, didukung oleh `config.py` yang dikoreksi, yang secara terpisah ternyata belum memuat satu dari empat opsi aturan yang didokumentasikan (`TWILIGHT_ANGLE`).",
+                label: "Penanganan Celah Keamanan Konfigurasi",
+                body: "Proses audit lanjutan mengungkap celah desain tambahan: apabila string `high_latitude_rule` yang tidak valid dimasukkan, sistem secara diam-diam menggugurkan kalkulasi Subuh menjadi Terbit dan Isya menjadi Maghrib tanpa melempar exception, karena perhitungan offset jatuh ke nilai default `0`. Keluaran tersebut tampak seperti waktu yang valid padahal keliru — jenis kegagalan yang paling berbahaya di lingkungan produksi. Masalah ini diperbaiki dengan menambahkan validasi skema ketat saat konstruksi objek konfigurasi dan memperbarui berkas `config.py` yang sebelumnya sempat melewatkan satu opsi aturan (`TWILIGHT_ANGLE`).",
             },
             {
-                label: "Memperluas fitur secara hati-hati",
-                body: "`NEAREST_DAY` (Aqrab al-Ayyam) ditambahkan untuk menangani lokasi senja tetap — waktu terbit/terbenam matahari yang sesungguhnya masih terjadi, tetapi sudut Fajr/Isya tidak dapat dicapai. Versi awal mencoba memperluas substitusi yang sama ke Terbit/Maghrib untuk kasus matahari tengah malam sejati, dan sempat merilis bug nyata selama pengembangan: pencarian hari-terdekat-valid milik Fajr dan Terbit berjalan independen dan mendarat di hari yang berbeda, menghasilkan jadwal dengan Fajr muncul setelah Terbit. Tertangkap oleh pemeriksaan sanity otomatis sebelum rilis, dan diperbaiki dengan membatasi cakupan fitur secara benar, bukan menambal gejalanya.",
+                label: "Pengembangan Fitur & Pengendalian Efek Samping",
+                body: "Fitur `NEAREST_DAY` (Aqrab al-Ayyam) ditambahkan khusus untuk lokasi dengan fenomena senja abadi di mana matahari terbenam namun tidak pernah mencapai sudut depresi Subuh/Isya. Pada versi prototipe awal, pengembangan sempat mencoba memperluas substitusi serupa untuk waktu Terbit/Maghrib pada lokasi polar day (matahari tidak pernah terbenam). Namun eksperimen tersebut menghasilkan bug baru di mana pencarian hari terdekat untuk Subuh dan Terbit jatuh di hari yang berbeda, menyebabkan Subuh tampil setelah Terbit. Bug tersebut ditangkap oleh uji otomatis sebelum rilis dan diperbaiki dengan membatasi cakupan fitur secara tepat.",
             },
         ],
 
         notes: [
             {
-                title: "Matahari tengah malam sejati tetap mengembalikan N/A",
-                body: "`NEAREST_DAY` hanya menggantikan Fajr/Isya untuk senja tetap, di mana terbit/terbenam matahari biasa masih terjadi. Matahari tengah malam sejati — di mana matahari tidak pernah terbenam sama sekali — tidak memiliki aturan yang menghasilkan jawaban yang bisa dipakai, secara sengaja; perluasan ke arah itu pernah dicoba dan dibatalkan setelah menghasilkan jadwal yang tidak konsisten secara internal (lihat studi kasus di atas).",
+                title: "Respon Lokasi Polar Day / Night Sejati",
+                body: "Aturan `NEAREST_DAY` dirancang khusus untuk kondisi senja abadi di mana matahari masih mengalami siklus terbit dan terbenam. Untuk kawasan kutub dengan matahari tengah malam sejati (di mana matahari tidak pernah terbenam selama 24 jam), sistem secara sengaja mengembalikan respon N/A untuk menghindari pembuatan waktu buatan yang tidak konsisten secara ilmiah.",
             },
             {
-                title: "Reverse-geocoding melemah secara diam-diam untuk koordinat terpencil",
-                body: "`reverse_geocode` selalu mengembalikan titik terdekat yang diketahui terlepas dari jarak sesungguhnya, sehingga koordinat di tengah laut lepas bisa diatribusikan ke daratan terdekat mana pun — yang bisa jadi sangat jauh — tanpa ambang batas jarak atau kepercayaan untuk menolkannya.",
+                title: "Batas Akurasi Offline Reverse-Geocoding",
+                body: "Pustaka `reverse_geocode` mengembalikan titik daratan terdekat yang tercatat dalam dataset tanpa memedulikan jarak sebenarnya. Oleh karena itu, input koordinat di tengah samudera lepas akan diatribusikan ke daratan terdekat mana pun tanpa batas ambang jarak.",
             },
             {
-                title: "Pencarian kota hanya mencakup dataset geonamescache",
-                body: "Sekitar 34 ribu tempat berpenduduk di atas ambang batas ukuran tertentu — kota atau desa kecil di bawah itu tidak akan ter-resolve dan mengembalikan `404`; gunakan koordinat untuk kasus tersebut. Nama yang ambigu (mis. \"Paris\") secara default memakai kecocokan paling padat penduduknya alih-alih error, meski `meta.city` selalu melaporkan persis kota mana yang dipakai sehingga disambiguasi yang keliru tetap terlihat, bukan tersembunyi.",
+                title: "Cakupan Dataset Pencarian Nama Kota",
+                body: "Pencarian nama kota memanfaatkan dataset `geonamescache` yang mencakup ~34.000 wilayah berpenduduk di atas ambang batas populasi tertentu. Untuk desa atau kawasan kecil di bawah ambang batas tersebut, pengguna disarankan memasukkan koordinat latitude/longitude secara langsung.",
             },
             {
-                title: "Tidak ada tanggal kalender Hijriah",
-                body: "Hanya tanggal Masehi yang dihitung. Aplikasi mobile pendamping memiliki konversi Hijriah lewat modul terpisah; modul itu belum diporting kembali ke API ini.",
+                title: "Fokus Konversi Kalender Masehi",
+                body: "Layanan API ini berfokus khusus pada kalkulasi astronomi waktu salat berbasis kalender Masehi. Modul konversi kalender Hijriah diimplementasikan pada aplikasi mobile pendamping secara terpisah.",
             },
             {
-                title: "Tidak ada caching atau rate limiting",
-                body: "Setiap permintaan menghitung ulang dari awal dan memanggil library geocoding setiap kali — cukup untuk penggunaan pribadi atau skala kecil, tetapi perlu perhatian tambahan sebelum digunakan pada trafik tinggi.",
+                title: "Performa & Skalabilitas Serverless",
+                body: "Setiap permintaan API diproses secara langsung (on-demand) untuk menjamin akurasi data terbaru. Untuk kebutuhan deployment skala besar dengan trafik tinggi, penambahan lapisan caching Redis disarankan.",
             },
         ],
     },

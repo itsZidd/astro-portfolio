@@ -12,15 +12,19 @@ export const projectTranslationsId: Record<
 > = {
     "prayer-time": {
         summary:
-            "Aplikasi pendamping salat yang offline-first — perhitungan astronomi waktu salat kustom, pembaca Al-Qur'an dengan pewarnaan tajwid, dan notifikasi terjadwal yang tetap presisi di latar belakang.",
+            "Aplikasi pendamping salat mobile berbasis offline-first yang dibangun menggunakan React Native dan Expo. Aplikasi ini menyediakan kalkulasi astronomi waktu salat kustom tanpa ketergantungan API pihak ketiga, pembaca Al-Qur'an lengkap 30 Juz dengan verifikasi kaidah tajwid pada 6.236 ayat, fitur Asmaul Husna & Tasbih digital, serta penjadwalan notifikasi latar belakang yang presisi.",
     },
     "python-prayer-time": {
         summary:
-            "API waktu salat FastAPI dan CLI dengan astronomi matahari kustom dan lima strategi fallback lintang tinggi — mesin perhitungannya kemudian diporting ke aplikasi mobile Prayer Time berbasis React Native.",
+            "Sistem API web FastAPI dan CLI untuk menghitung waktu salat berbasis posisi astronomi matahari mentah (tanggal Julian, deklinasi, dan sudut jam). Dilengkapi 17 metode perhitungan bawaan, pencarian kota offline, serta lima strategi fallback lintang tinggi untuk wilayah kutub — mesin kalkulasi yang kemudian diporting ke React Native.",
     },
     "astro-portfolio": {
         summary:
-            "Situs pribadi saya — etalase proyek dwibahasa yang dibangun dengan Astro, termasuk tag cloud pemakaian teknologi yang menautkan tiap alat kembali ke proyek yang memakainya.",
+            "Situs portofolio pribadi dwibahasa (Indonesia & Inggris) yang dibangun dari nol menggunakan Astro dan CSS murni tanpa UI framework. Dilengkapi arsitektur i18n berbasis rute, etalase karya interaktif, tag cloud statistik penggunaan teknologi pada /stats, serta laporan studi kasus teknis yang ditulis secara jujur dan mendalam.",
+    },
+    "icare-landslide": {
+        summary:
+            "E-modul pembelajaran edukasi interaktif berbasis SvelteKit untuk pendidikan geografi dan mitigasi bencana tanah longsor di Kecamatan Jabung, Kabupaten Malang. Menggabungkan eksplorasi peta 3D, 5 ruang belajar interaktif, penilai esai refleksi berbasis Gemini AI, serta portal analitik guru — dibangun ulang sepenuhnya dari ekspor Articulate Storyline 360 yang bermasalah.",
     },
 };
 
@@ -39,3 +43,4 @@ export const categoryLabels = {
         "Game Dev": "Pengembangan Game",
     },
 } as const;
+

@@ -20,46 +20,65 @@ const matches = getProjectsForTech(slug);
 <Layout title={`${techName} — M. Zidan Malik`}>
     <section class="tech">
         <div class="wrap">
-            <a href={getLocalizedPath(lang, "/stats")} class="tech__back">
-                <Icon name="arrow-left" size={14} />
-                {t("stats.back")}
-            </a>
-
-            <div class="tech__head">
-                <TechIcon name={techName} size={30} />
-                <div>
-                    <p class="eyebrow">{t("stats.techLabel")}</p>
-                    <h1 class="h-display tech__title">{techName}</h1>
-                </div>
+            <div class="tech__back-wrap">
+                <a href={getLocalizedPath(lang, "/stats")} class="btn btn-secondary">
+                    <Icon name="arrow-left" size={14} />
+                    {t("stats.back")}
+                </a>
             </div>
 
-            <p class="tech__count eyebrow">
-                {matches.length} {matches.length === 1 ? t("stats.project") : t("stats.projects")}
-            </p>
+            <div class="tech__head glass-panel">
+                <div class="tech__icon-box">
+                    <TechIcon name={techName} size={32} />
+                </div>
+                <div class="tech__info">
+                    <p class="eyebrow">{t("stats.techLabel")}</p>
+                    <h1 class="h-display tech__title">{techName}</h1>
+                    <span class="tech__count-badge">
+                        <span class="status-dot"></span>
+                        {matches.length} {matches.length === 1 ? t("stats.project") : t("stats.projects")}
+                    </span>
+                </div>
+            </div>
 
             <div class="project-grid">
                 {
                     matches.map((p) => {
                         const text = getProjectText(lang, p);
                         return (
-                            <a class="project-card" href={getLocalizedPath(lang, `/work/${p.slug}`)}>
-                                <div class="project-card__top">
-                                    <span class="project-card__file">{p.file}</span>
-                                    <span class={`project-card__status project-card__status--${p.status}`}>
-                                        {p.status === "live" ? t("status.live") : t("status.progress")}
-                                    </span>
-                                </div>
-                                <h3 class="project-card__title">{text.title}</h3>
-                                <p class="project-card__summary">{text.summary}</p>
-                                <div class="project-card__stack">
-                                    {p.stack.map((s) => (
-                                        <span>
-                                            <TechIcon name={s} size={12} />
-                                            {s}
+                            <div class="project-card-wrapper">
+                                <a class="project-card glass-panel" href={getLocalizedPath(lang, `/work/${p.slug}`)}>
+                                    <div class="project-card__top">
+                                        <span class="project-card__file">{p.file}</span>
+                                        <span class={`project-card__status project-card__status--${p.status}`}>
+                                            <span class="status-dot"></span>
+                                            {p.status === "live" ? t("status.live") : t("status.progress")}
                                         </span>
-                                    ))}
-                                </div>
-                            </a>
+                                    </div>
+
+                                    <div class="project-card__body">
+                                        <span class="project-card__category">{Array.isArray(p.category) ? p.category.join(" · ") : p.category}</span>
+                                        <h3 class="project-card__title">{text.title}</h3>
+                                        <p class="project-card__summary">{text.summary}</p>
+                                    </div>
+
+                                    <div class="project-card__bottom">
+                                        <div class="project-card__stack">
+                                            {p.stack.map((s) => (
+                                                <span class="tech-chip">
+                                                    <TechIcon name={s} size={12} />
+                                                    {s}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <span class="project-card__action">
+                                            {t("work.details")}
+                                            <Icon name="arrow-right" size={13} />
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
                         );
                     })
                 }
@@ -69,117 +88,175 @@ const matches = getProjectsForTech(slug);
 
     <style>
         .tech {
-            padding-bottom: 96px;
+            padding-block: 40px 96px;
         }
-        .tech__back {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 32px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding: 7px 12px 7px 10px;
-            border: 0.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            transition:
-                border-color 0.15s ease,
-                color 0.15s ease,
-                background 0.15s ease;
-        }
-        .tech__back:hover {
-            color: var(--accent);
-            border-color: var(--accent);
-            background: var(--surface);
+        .tech__back-wrap {
+            margin-bottom: 24px;
         }
 
         .tech__head {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-top: 24px;
+            gap: 20px;
+            padding: 28px 32px;
+            margin-bottom: 36px;
+        }
+        .tech__icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: rgba(151, 196, 89, 0.1);
+            border: 1px solid rgba(151, 196, 89, 0.25);
+            border-radius: 12px;
             color: var(--accent);
+            flex-shrink: 0;
+        }
+        .tech__info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
         .tech__title {
             font-size: clamp(2.4rem, 6vw, 3.8rem);
-            margin: 4px 0 0;
+            margin: 0;
+            background: linear-gradient(180deg, #ffffff 40%, rgba(244, 243, 236, 0.75) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .tech__count {
-            margin: 20px 0 0;
+        .tech__count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 4px;
         }
 
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-top: 28px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+        .project-card-wrapper {
+            display: flex;
+            height: 100%;
         }
         .project-card {
-            display: block;
-            background: var(--surface);
-            border: 0.5px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            transition:
-                border-color 0.15s ease,
-                transform 0.15s ease;
-        }
-        .project-card:hover {
-            border-color: var(--green-300);
-            transform: translateY(-2px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            padding: 24px;
         }
         .project-card__top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 16px;
         }
         .project-card__file {
             font-family: var(--font-mono);
-            font-size: 12px;
+            font-size: 12.5px;
             color: var(--green-100);
+            background: rgba(151, 196, 89, 0.08);
+            border: 1px solid rgba(151, 196, 89, 0.18);
+            padding: 3px 8px;
+            border-radius: 4px;
         }
         .project-card__status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             font-family: var(--font-mono);
-            font-size: 10px;
+            font-size: 10.5px;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 0.5px solid var(--border);
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
             color: var(--text-faint);
+            background: rgba(0, 0, 0, 0.3);
         }
         .project-card__status--live {
             color: var(--green-100);
-            border-color: var(--green-500);
+            border-color: rgba(151, 196, 89, 0.3);
+        }
+        .project-card__body {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .project-card__category {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--amber-300);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: block;
+            margin-bottom: 6px;
         }
         .project-card__title {
-            font-family: var(--font-body);
+            font-size: 19px;
             font-weight: 600;
-            font-size: 17px;
-            margin: 12px 0 6px;
             color: var(--text);
+            margin: 0 0 10px;
+            line-height: 1.35;
         }
         .project-card__summary {
             font-size: 13.5px;
             color: var(--text-secondary);
-            margin: 0 0 14px;
-            line-height: 1.5;
+            margin: 0;
+            line-height: 1.6;
+            text-align: justify;
+            text-justify: inter-word;
+            flex-grow: 1;
+        }
+        .project-card__bottom {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
         .project-card__stack {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
+            min-height: 56px;
+            align-content: flex-start;
         }
-        .project-card__stack span {
+        .tech-chip {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-family: var(--font-mono);
-            font-size: 10.5px;
-            color: var(--text-faint);
-            border: 0.5px solid var(--border-soft);
-            border-radius: 4px;
-            padding: 2px 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 3px 8px;
+        }
+        .project-card__action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
+            transition: gap 0.2s ease;
+        }
+        .project-card:hover .project-card__action {
+            gap: 10px;
+            color: var(--accent-strong);
         }
     </style>
 </Layout>

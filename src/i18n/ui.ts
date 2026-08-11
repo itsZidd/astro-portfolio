@@ -9,27 +9,41 @@ export const ui = {
         "lang.label": "Language",
 
         // Home — hero
+        "hero.badge": "Malang, East Java (-7.9666, 112.5183)",
+        "hero.available": "Available for projects & research",
         "hero.role": "Software Developer & Geographer",
         "hero.intro":
             "I build apps and tools, and map the world with them — mixing general software development with GIS, remote sensing, and machine learning.",
+        "hero.cta_work": "Explore Work",
+        "hero.cta_contact": "Get in Touch",
+        "hero.stat_projects": "Featured Projects",
+        "hero.stat_tech": "Technologies",
+        "hero.stat_focus": "GIS & Software Dual Focus",
 
         // Home — work / project cards
         "work.title": "Selected Work",
+        "filter.all": "All Projects",
+        "filter.software": "Software",
+        "filter.gis": "GIS & Geospatial",
+        "filter.aiml": "AI / ML",
         "status.live": "live",
         "status.progress": "in progress",
+        "work.details": "View Case Study",
 
         // Home — about
-        "about.title": "About",
+        "about.title": "About & Expertise",
         "about.text":
             "I'm pursuing a geography degree at the State University of Malang, with hands-on experience in GIS, remote sensing, and geospatial fieldwork for local and regional government. Alongside that I build software — web apps, mobile apps, and occasional game prototypes — and bring that same engineering background to geospatial data and applied machine learning.",
-        "skills.software": "Software",
-        "skills.gis": "GIS & Geospatial",
-        "skills.aiml": "AI / ML",
+        "skills.software": "Software Engineering",
+        "skills.gis": "GIS & Remote Sensing",
+        "skills.aiml": "Applied AI & ML",
 
         // Home — contact
-        "contact.title": "Contact",
+        "contact.title": "Let's Build Together",
         "contact.text":
-            "Open to opportunities and collaboration — reach out by email or check the work on GitHub.",
+            "Open to software engineering roles, geospatial analysis projects, and technical research collaboration.",
+        "contact.copy": "Copy Email",
+        "contact.copied": "Copied to Clipboard!",
 
         // Stats page
         "stats.eyebrow": "tech across projects",
@@ -66,33 +80,47 @@ export const ui = {
         "lang.label": "Bahasa",
 
         // Home — hero
+        "hero.badge": "Malang, Jawa Timur (-7.9666, 112.5183)",
+        "hero.available": "Tersedia untuk proyek & riset",
         "hero.role": "Pengembang Perangkat Lunak & Geograf",
         "hero.intro":
-            "Saya membangun aplikasi dan perangkat lunak, lalu menggunakannya untuk memetakan dunia — memadukan pengembangan perangkat lunak secara umum dengan GIS, penginderaan jauh, dan machine learning.",
+            "Saya merancang dan membangun sistem perangkat lunak modern — mulai dari aplikasi web, aplikasi mobile, hingga infrastruktur backend — serta memanfaatkannya untuk memetakan dan menganalisis fenomena geospasial di dunia nyata. Dengan memadukan rekayasa perangkat lunak modern, sistem informasi geografis (GIS), penginderaan jauh, dan kalkulasi astronomi serta machine learning terapan, saya menghadirkan solusi teknis yang presisi, efisien, dan bermanfaat.",
+        "hero.cta_work": "Lihat Karya",
+        "hero.cta_contact": "Hubungi Saya",
+        "hero.stat_projects": "Karya Unggulan",
+        "hero.stat_tech": "Teknologi",
+        "hero.stat_focus": "Fokus Ganda GIS & Perangkat Lunak",
 
         // Home — work / project cards
         "work.title": "Karya Pilihan",
+        "filter.all": "Semua Karya",
+        "filter.software": "Perangkat Lunak",
+        "filter.gis": "GIS & Geospasial",
+        "filter.aiml": "AI / ML",
         "status.live": "live",
         "status.progress": "dalam proses",
+        "work.details": "Lihat Studi Kasus",
 
         // Home — about
-        "about.title": "Tentang",
+        "about.title": "Tentang & Keahlian",
         "about.text":
-            "Saya sedang menempuh studi geografi di Universitas Negeri Malang, dengan pengalaman langsung di GIS, penginderaan jauh, dan kerja lapangan geospasial untuk pemerintah daerah maupun pusat. Di luar itu saya juga membangun perangkat lunak — aplikasi web, aplikasi mobile, dan sesekali prototipe game — serta menggunakan latar belakang teknis yang sama untuk mengolah data geospasial dan machine learning terapan.",
-        "skills.software": "Perangkat Lunak",
-        "skills.gis": "GIS & Geospasial",
-        "skills.aiml": "AI / ML",
+            "Saat ini saya sedang menempuh studi sarjana geografi di Universitas Negeri Malang. Latar belakang akademik ini saya perkuat dengan pengalaman praktis dalam analisis GIS, pengolahan citra penginderaan jauh, dan survei lapangan geospasial untuk berbagai proyek pemerintah daerah maupun instansi pusat. Di saat yang sama, saya mendalami rekayasa perangkat lunak secara autodidaks dan terstruktur — menguasai pengembangan aplikasi web dan mobile (React Native, SvelteKit, Astro, Python), serta mengintegrasikan pemodelan machine learning terapan (seperti RAG, klasifikasi, dan pemrosesan data AI) untuk menyelesaikan permasalahan spasial maupun sistemik secara holistik.",
+        "skills.software": "Rekayasa Perangkat Lunak",
+        "skills.gis": "GIS & Penginderaan Jauh",
+        "skills.aiml": "AI & ML Terapan",
 
         // Home — contact
-        "contact.title": "Kontak",
+        "contact.title": "Mari Berkolaborasi",
         "contact.text":
-            "Terbuka untuk peluang dan kolaborasi — hubungi lewat email atau lihat karya di GitHub.",
+            "Saya selalu terbuka untuk peluang karir rekayasa perangkat lunak, proyek konsultasi dan analisis geospasial, pengembangan sistem GIS custom, serta kolaborasi riset teknis antardisiplin. Mari berdiskusi tentang ide atau proyek yang ingin Anda bangun.",
+        "contact.copy": "Salin Email",
+        "contact.copied": "Berhasil Disalin!",
 
         // Stats page
         "stats.eyebrow": "teknologi di seluruh karya",
         "stats.title": "Statistik Teknologi",
         "stats.intro":
-            "Rekap bahasa, framework, dan alat yang muncul di berbagai proyek saya — makin besar berarti makin sering dipakai.",
+            "Halaman ini merangkum secara transparan seluruh bahasa pemrograman, framework, pustaka, dan perangkat teknis yang saya gunakan dalam berbagai proyek portofolio ini. Ukuran dan warna setiap tag mencerminkan tingkat frekuensi penggunaannya, dan Anda dapat mengeklik tag mana pun untuk menjelajahi karya-karya yang mengimplementasikan teknologi tersebut.",
         "stats.projects": "karya",
         "stats.project": "karya",
         "stats.technologies": "teknologi",
@@ -114,3 +142,4 @@ export const ui = {
         "case.eyebrow": "perangkat lunak · react native",
     },
 } as const;
+

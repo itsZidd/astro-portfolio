@@ -1,15 +1,21 @@
 :root {
-  /* Surfaces */
-  --bg: #0e0f0d;
-  --surface: #15160f;
-  --surface-2: #1c1e17;
-  --border: #2a2c24;
-  --border-soft: #21231b;
+  /* Surfaces — Deep Obsidian & Glass */
+  --bg: #090a0a;
+  --bg-gradient: radial-gradient(circle at 50% 0%, rgba(29, 158, 117, 0.08) 0%, rgba(9, 10, 10, 0) 70%);
+  --surface: rgba(18, 20, 17, 0.75);
+  --surface-hover: rgba(26, 29, 24, 0.85);
+  --surface-2: rgba(28, 30, 24, 0.6);
+  --glass-bg: rgba(18, 20, 17, 0.65);
+  --glass-border: rgba(151, 196, 89, 0.22);
+  --glass-border-hover: rgba(151, 196, 89, 0.45);
+
+  --border: rgba(151, 196, 89, 0.25);
+  --border-soft: rgba(255, 255, 255, 0.12);
 
   /* Text */
-  --text: #f2f0e6;
-  --text-secondary: #9c9a8d;
-  --text-faint: #6b6a5f;
+  --text: #f4f3ec;
+  --text-secondary: #c5c2b5;
+  --text-faint: #8e8d80;
 
   /* Elevation ramp — teal (low) -> green (mid) -> amber (high) */
   --teal-900: #04342c;
@@ -25,18 +31,23 @@
   --amber-300: #ef9f27;
   --amber-100: #fac775;
 
-  /* Accent — used sparingly for links, focus, interactive state */
+  /* Glow / Accents */
   --accent: var(--green-100);
   --accent-strong: var(--amber-300);
+  --glow-emerald: rgba(151, 196, 89, 0.15);
+  --glow-amber: rgba(239, 159, 39, 0.15);
+  --glow-teal: rgba(29, 158, 117, 0.2);
 
   /* Type */
+  --font-heading: "Plus Jakarta Sans", "IBM Plex Sans", system-ui, sans-serif;
   --font-display: "Big Shoulders", "Arial Narrow", sans-serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  --radius: 10px;
+  --radius: 12px;
   --radius-sm: 6px;
-  --container: 1080px;
+  --radius-lg: 16px;
+  --container: 1120px;
 }
 
 * { box-sizing: border-box; }
@@ -44,21 +55,44 @@
 html {
   background: var(--bg);
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: clip;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 ::selection {
-  background: var(--green-500);
-  color: var(--text);
+  background: rgba(151, 196, 89, 0.3);
+  color: #ffffff;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-700);
 }
 
 a {
@@ -71,7 +105,7 @@ button:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -80,22 +114,146 @@ img, svg { display: block; max-width: 100%; }
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: 24px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   color: var(--text-faint);
   text-transform: uppercase;
 }
 
 .h-display {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   line-height: 0.95;
+}
+
+/* Glassmorphism Card Utility */
+.glass-panel {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.glass-panel:hover {
+  border-color: var(--glass-border-hover);
+  background: var(--surface-hover);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--glow-emerald);
+}
+
+/* Button Utilities */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  word-spacing: 0.08em;
+  padding: 11px 22px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--green-100);
+  color: #080a07;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(151, 196, 89, 0.3);
+}
+
+.btn-primary:hover {
+  background: #a8d56a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(151, 196, 89, 0.45);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-color: var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* Pulse indicator animation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.15); }
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-100);
+  box-shadow: 0 0 8px var(--green-100);
+  animation: pulse-glow 2.5s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+/* Text Justification System */
+p,
+.hero__intro,
+.about__text,
+p, 
+.hero__intro, 
+.about__text, 
+.contact-card__text, 
+.project-card__summary, 
+.case__pitch, 
+.stats__intro, 
+.story__block p, 
+.notes__item p, 
+.stack-group li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Headings and Subtitles must ALWAYS be left-aligned */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.notes__title,
+.story__label,
+.eyebrow,
+.h-display,
+.project-card__title,
+.skills-group__title,
+.contact-card__title,
+.stats__title {
+  text-align: left !important;
+  text-justify: auto !important;
+}
+.stats__title {
+  text-align: left !important;
+  text-justify: auto !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -106,3 +264,204 @@ img, svg { display: block; max-width: 100%; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Visible Section & Block Dividers */
+hr, .divider, .case__divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(151, 196, 89, 0) 0%, rgba(151, 196, 89, 0.4) 20%, rgba(151, 196, 89, 0.4) 80%, rgba(151, 196, 89, 0) 100%);
+  margin-block: 36px;
+}
+
+/* Heading & Section Title Styling — Big Shoulders Display Font */
+.section-title,
+.h-display,
+.story__label,
+.notes__title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Clear Divider Line Under Subheadings */
+.story__label,
+.notes__title,
+.skills-group__title {
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(151, 196, 89, 0.28);
+}
+
+/* ==========================================================================
+   Comprehensive Mobile & Small Screen Responsive Utilities (@media < 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Prevent horizontal scrolling & body overflow — use clip not hidden to preserve sticky */
+  html {
+    overflow-x: clip;
+  }
+  body {
+    overflow-x: clip;
+  }
+
+  .wrap {
+    padding-inline: 16px !important;
+  }
+
+  /* Small screen paragraph justification with automatic hyphenation */
+  p, 
+  .hero__intro, 
+  .about__text, 
+  .contact-card__text, 
+  .story__block p, 
+  .notes__item p, 
+  .project-card__summary, 
+  .case__pitch, 
+  .stack-group li {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    hyphens: auto !important;
+    -webkit-hyphens: auto !important;
+  }
+
+  .btn, .filter-btn, .hero__stat-value, .hero__stat-label, .site-header__mark {
+    text-align: center !important;
+  }
+
+  /* Title sizing & word wrapping on mobile */
+  .hero__name,
+  .case__title,
+  .h-display {
+    font-size: clamp(2rem, 8.5vw, 3.2rem) !important;
+    line-height: 1.05 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .section-title {
+    font-size: 1.75rem !important;
+    word-break: break-word !important;
+  }
+
+  .story__label,
+  .notes__title {
+    font-size: 1.05rem !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .story__label::before {
+    display: none !important;
+  }
+
+  /* Buttons & Action Links on mobile: Stack neatly full width */
+  .hero__actions,
+  .contact__actions,
+  .case__links,
+  .project-card__action-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .btn {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Category Filter buttons on mobile: scrollable horizontal bar */
+  .category-filters {
+    width: 100% !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    padding: 4px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-btn {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Cards & Grid spacing */
+  .project-grid,
+  .skills-grid,
+  .stack-grid,
+  .notes,
+  .tech-matrix {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .glass-panel,
+  .project-card,
+  .story__block,
+  .notes__item,
+  .stack-group,
+  .contact-card {
+    padding: 16px !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent code blocks from overflowing cards on mobile */
+  code, pre, kbd {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    word-break: break-all !important;
+    white-space: pre-wrap !important;
+    box-sizing: border-box !important;
+    font-size: 0.8em !important;
+  }
+
+  /* All text content must stay within bounds */
+  p, li, span, a {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+
+  /* Header & Navigation on Mobile */
+  .site-header__inner {
+    height: 60px !important;
+    padding-block: 0 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .site-header__right {
+    width: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+  }
+
+  .site-header__nav {
+    display: none !important;
+  }
+
+  .nav-link {
+    font-size: 12.5px !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Force sticky header on mobile — must come after any overflow fixes */
+  .site-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 200 !important;
+  }
+}
+
+
+

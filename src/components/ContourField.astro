@@ -236,7 +236,12 @@ const {
     }
 
     function initAll() {
-        document.querySelectorAll(".contour-field").forEach(buildField);
+        const fields = document.querySelectorAll(".contour-field");
+        fields.forEach((el) => {
+            buildField(el);
+            const ro = new ResizeObserver(() => buildField(el));
+            ro.observe(el);
+        });
     }
 
     if (document.readyState === "loading") {
@@ -245,3 +250,4 @@ const {
         initAll();
     }
 </script>
+

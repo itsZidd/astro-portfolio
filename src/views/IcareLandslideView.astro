@@ -2,27 +2,27 @@
 import CaseStudyLayout from "../components/CaseStudyLayout.astro";
 import { useTranslations } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
-import { astroPortfolioContent } from "../content/astroPortfolio.ts";
+import { icareLandslideContent } from "../content/icareLandslide.ts";
 
 interface Props {
     lang: Lang;
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const c = astroPortfolioContent[lang];
+const c = icareLandslideContent[lang];
 ---
 
 <CaseStudyLayout
     lang={lang}
-    pageTitle="Astro Portfolio — M. Zidan Malik"
-    displayTitle="Astro Portfolio"
+    pageTitle="I-CARE Landslide — M. Zidan Malik"
+    displayTitle="I-CARE Landslide"
     eyebrow={c.eyebrow}
     pitch={c.pitch}
     links={[
         {
-            href: "https://github.com/itsZidd/astro-portfolio",
-            label: t("case.viewGithub"),
-            icon: "square-arrow-out-up-right",
+            href: "https://ic-learn-landslide.vercel.app/",
+            label: t("case.tryLive"),
+            icon: "globe",
             variant: "primary",
             external: true,
         },
