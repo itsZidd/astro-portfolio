@@ -9,6 +9,7 @@ Live at: not yet deployed — see [Known Issues](#known-issues).
 - **Bilingual routing** — parallel `/en` and `/id` route trees via Astro's built-in i18n, with a language switcher that remembers your choice
 - **Project case studies** — pitch, feature breakdown, tech stack, a written case study, and known limitations per project
 - **Tech stats** — `/stats` tallies every project's stack into a tag cloud sized by usage; each tag links to a page listing the projects that use it
+- **Feedback form** — `/feedback` lets visitors review any project (star rating + comment); each case-study page links here with the project pre-selected
 
 ## Stack
 
@@ -45,6 +46,16 @@ npm run dev
 | `npm run build`     | Build production site to `./dist/`           |
 | `npm run preview`   | Preview the production build locally         |
 | `npm run astro ...` | Run any Astro CLI command                    |
+
+## Feedback form setup
+
+The form at `/feedback` (`src/views/FeedbackView.astro`) submits client-side to [Web3Forms](https://web3forms.com), a free form backend — no server needed since this site builds to static HTML. To enable it:
+
+1. Go to https://web3forms.com and enter an email to get a free access key (no account required).
+2. Add it to `.env` as `PUBLIC_WEB3FORMS_KEY=your-key-here`.
+3. Rebuild. Submissions arrive by email to the address you registered.
+
+Without a key set, the form still renders but shows a "not configured yet" message on submit instead of failing silently.
 
 ## Known issues
 

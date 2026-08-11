@@ -1,6 +1,6 @@
 ---
 import CaseStudyLayout from "../components/CaseStudyLayout.astro";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, getLocalizedPath } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
 import { icareLandslideContent, screenshotOrder } from "../content/icareLandslide.ts";
 
@@ -30,6 +30,12 @@ const screenshots = screenshotOrder.map((key) => ({
             icon: "globe",
             variant: "primary",
             external: true,
+        },
+        {
+            href: `${getLocalizedPath(lang, "/feedback")}?project=icare-landslide`,
+            label: t("case.giveFeedback"),
+            icon: "message-square",
+            variant: "secondary",
         },
     ]}
     screenshots={screenshots}

@@ -1,6 +1,6 @@
 ---
 import CaseStudyLayout from "../components/CaseStudyLayout.astro";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, getLocalizedPath } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
 import { prayerTimeContent, screenshotOrder } from "../content/prayerTime.ts";
 
@@ -36,6 +36,12 @@ const screenshots = screenshotOrder.map((key) => ({
             icon: "square-arrow-out-up-right",
             variant: "secondary",
             external: true,
+        },
+        {
+            href: `${getLocalizedPath(lang, "/feedback")}?project=prayer-time`,
+            label: t("case.giveFeedback"),
+            icon: "message-square",
+            variant: "secondary",
         },
     ]}
     screenshots={screenshots}

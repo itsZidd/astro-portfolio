@@ -1,0 +1,487 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { projects } from "../data/projects.ts";
+import { useTranslations, getLocalizedPath, getProjectText } from "../i18n/utils";
+import type { Lang } from "../i18n/config";
+
+interface Props {
+    lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const projectOptions = projects.map((p) => ({
+    slug: p.slug,
+    title: getProjectText(lang, p).title,
+}));
+
+const referralOptions = [
+    { value: "linkedin", label: t("feedback.referral.linkedin") },
+    { value: "github", label: t("feedback.referral.github") },
+    { value: "search", label: t("feedback.referral.search") },
+    { value: "word-of-mouth", label: t("feedback.referral.wordOfMouth") },
+    { value: "job-application", label: t("feedback.referral.jobApplication") },
+    { value: "social", label: t("feedback.referral.social") },
+    { value: "other", label: t("feedback.referral.other") },
+];
+
+const ratingCategories = [
+    { key: "overall", label: t("feedback.ratingOverall") },
+    { key: "design", label: t("feedback.ratingDesign") },
+    { key: "performance", label: t("feedback.ratingPerformance") },
+    { key: "usefulness", label: t("feedback.ratingUsefulness") },
+];
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "";
+
+const labels = {
+    submit: t("feedback.submit"),
+    submitting: t("feedback.submitting"),
+    success: t("feedback.success"),
+    error: t("feedback.error"),
+    configMissing: t("feedback.configMissing"),
+};
+---
+
+<Layout title={`${t("feedback.title")} — M. Zidan Malik`}>
+    <section class="feedback">
+        <div class="wrap">
+            <div class="feedback__container">
+                <div class="feedback__back-wrap">
+                    <a href={getLocalizedPath(lang, "/#work")} class="btn btn-secondary">
+                        <Icon name="arrow-left" size={14} />
+                        {t("case.back")}
+                    </a>
+                </div>
+
+                <p class="eyebrow">{t("feedback.eyebrow")}</p>
+                <h1 class="h-display feedback__title">{t("feedback.title")}</h1>
+                <p class="feedback__intro">{t("feedback.intro")}</p>
+
+                <form id="feedback-form" class="feedback-form glass-panel" novalidate>
+                    <input
+                        type="checkbox"
+                        name="botcheck"
+                        class="feedback-form__honeypot"
+                        tabindex="-1"
+                        autocomplete="off"
+                    />
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="fb-name">
+                                {t("feedback.name")} <span class="field__hint">{t("feedback.optional")}</span>
+                            </label>
+                            <input id="fb-name" name="name" type="text" autocomplete="name" />
+                        </div>
+                        <div class="field">
+                            <label for="fb-email">
+                                {t("feedback.email")} <span class="field__hint">{t("feedback.optional")}</span>
+                            </label>
+                            <input id="fb-email" name="email" type="email" autocomplete="email" />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="fb-project">{t("feedback.project")}</label>
+                        <select id="fb-project" name="project" required>
+                            <option value="" disabled selected>{t("feedback.projectPlaceholder")}</option>
+                            <option value="general">{t("feedback.projectGeneral")}</option>
+                            {projectOptions.map((p) => <option value={p.slug}>{p.title}</option>)}
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="fb-referral">{t("feedback.referral")}</label>
+                        <select id="fb-referral" name="referral">
+                            <option value="" selected>{t("feedback.referralPlaceholder")}</option>
+                            {referralOptions.map((r) => <option value={r.value}>{r.label}</option>)}
+                        </select>
+                    </div>
+
+                    <p class="form-section-title">{t("feedback.sectionRatings")}</p>
+
+                    <div class="rating-grid">
+                        {ratingCategories.map((cat) => (
+                            <div class="rating-row">
+                                <span class="field__label-text">{cat.label}</span>
+                                <div class="star-rating" data-category={cat.key} role="radiogroup" aria-label={cat.label}>
+                                    {[1, 2, 3, 4, 5].map((n) => (
+                                        <button type="button" class="star-btn" data-value={n} aria-label={`${n} star`}>
+                                            <Icon name="star" size={18} />
+                                        </button>
+                                    ))}
+                                </div>
+                                <input type="hidden" name={`rating_${cat.key}`} id={`fb-rating-${cat.key}`} value="" />
+                            </div>
+                        ))}
+                    </div>
+
+                    <div class="field">
+                        <span class="field__label-text">{t("feedback.recommend")}</span>
+                        <div class="segmented" role="radiogroup" aria-label={t("feedback.recommend")}>
+                            <button type="button" class="segmented__btn" data-value="yes">
+                                {t("feedback.recommendYes")}
+                            </button>
+                            <button type="button" class="segmented__btn" data-value="maybe">
+                                {t("feedback.recommendMaybe")}
+                            </button>
+                            <button type="button" class="segmented__btn" data-value="no">
+                                {t("feedback.recommendNo")}
+                            </button>
+                        </div>
+                        <input type="hidden" name="recommend" id="fb-recommend" value="" />
+                    </div>
+
+                    <p class="form-section-title">{t("feedback.sectionThoughts")}</p>
+
+                    <div class="field">
+                        <label for="fb-liked">{t("feedback.liked")}</label>
+                        <textarea id="fb-liked" name="liked" rows="3" placeholder={t("feedback.likedPlaceholder")}
+                        ></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="fb-improve">{t("feedback.improve")}</label>
+                        <textarea id="fb-improve" name="improve" rows="3" placeholder={t("feedback.improvePlaceholder")}
+                        ></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="fb-notes">{t("feedback.notes")}</label>
+                        <textarea id="fb-notes" name="notes" rows="3" placeholder={t("feedback.notesPlaceholder")}
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary feedback-form__submit">
+                        <Icon name="send" size={15} />
+                        <span class="submit-label">{t("feedback.submit")}</span>
+                    </button>
+
+                    <p class="feedback-form__status" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .feedback {
+            padding-block: 40px 96px;
+        }
+        .feedback__container {
+            max-width: 640px;
+            margin-inline: auto;
+        }
+        .feedback__back-wrap {
+            margin-bottom: 24px;
+        }
+        .feedback__title {
+            font-size: clamp(2.4rem, 6vw, 3.4rem);
+            margin: 6px 0 0;
+        }
+        .feedback__intro {
+            max-width: 56ch;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.65;
+            margin: 16px 0 0;
+        }
+
+        .feedback-form {
+            margin-top: 36px;
+            padding: 28px;
+            display: grid;
+            gap: 22px;
+        }
+        .feedback-form__honeypot {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .form-section-title {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 6px 0 -6px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-soft);
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+        .field label,
+        .field__label-text {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .field__hint {
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--text-faint);
+        }
+
+        .field input[type="text"],
+        .field input[type="email"],
+        .field select,
+        .field textarea {
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text);
+            background: var(--surface-2);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-sm);
+            padding: 11px 14px;
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+        .field select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238e8d80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .field textarea {
+            resize: vertical;
+            min-height: 84px;
+            line-height: 1.55;
+        }
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--surface-hover);
+        }
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: var(--text-faint);
+        }
+
+        .rating-grid {
+            display: grid;
+            gap: 14px;
+        }
+        .rating-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .rating-row .field__label-text {
+            flex: 1 1 auto;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .star-btn {
+            background: transparent;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            color: var(--text-faint);
+            transition:
+                color 0.15s ease,
+                transform 0.15s ease;
+        }
+        .star-btn:hover {
+            color: var(--amber-300);
+            transform: scale(1.1);
+        }
+        .star-btn.is-active {
+            color: var(--amber-300);
+        }
+        .star-btn :global(svg) {
+            fill: currentColor;
+            stroke: currentColor;
+        }
+        .star-btn:not(.is-active) :global(svg) {
+            fill: transparent;
+        }
+
+        .segmented {
+            display: inline-flex;
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            width: fit-content;
+        }
+        .segmented__btn {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            background: var(--surface-2);
+            border: none;
+            padding: 9px 20px;
+            cursor: pointer;
+            transition:
+                background 0.15s ease,
+                color 0.15s ease;
+        }
+        .segmented__btn + .segmented__btn {
+            border-left: 1px solid var(--border-soft);
+        }
+        .segmented__btn:hover {
+            color: var(--text);
+        }
+        .segmented__btn.is-active {
+            background: var(--green-100);
+            color: #080a07;
+            font-weight: 600;
+        }
+
+        .feedback-form__submit {
+            justify-self: start;
+            margin-top: 4px;
+        }
+        .feedback-form__status {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            min-height: 1.4em;
+        }
+        .feedback-form__status[data-state="success"] {
+            color: var(--green-100);
+        }
+        .feedback-form__status[data-state="error"] {
+            color: var(--amber-300);
+        }
+
+        @media (max-width: 560px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+            .feedback-form {
+                padding: 20px;
+            }
+            .rating-row {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+
+    <script define:vars={{ accessKey, labels }}>
+        const form = document.getElementById("feedback-form");
+        const statusEl = form.querySelector(".feedback-form__status");
+        const submitBtn = form.querySelector(".feedback-form__submit");
+        const submitLabel = submitBtn.querySelector(".submit-label");
+        const projectSelect = document.getElementById("fb-project");
+
+        const params = new URLSearchParams(window.location.search);
+        const preselect = params.get("project");
+        if (preselect && projectSelect.querySelector(`option[value="${preselect}"]`)) {
+            projectSelect.value = preselect;
+        }
+
+        const resetFns = [];
+
+        form.querySelectorAll(".star-rating[data-category]").forEach((group) => {
+            const category = group.dataset.category;
+            const hidden = document.getElementById(`fb-rating-${category}`);
+            const starBtns = group.querySelectorAll(".star-btn");
+            let value = 0;
+
+            function paint() {
+                starBtns.forEach((btn) => {
+                    btn.classList.toggle("is-active", Number(btn.dataset.value) <= value);
+                });
+            }
+            starBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    value = Number(btn.dataset.value);
+                    hidden.value = String(value);
+                    paint();
+                });
+            });
+            resetFns.push(() => {
+                value = 0;
+                paint();
+            });
+        });
+
+        const recommendHidden = document.getElementById("fb-recommend");
+        const recommendBtns = form.querySelectorAll(".segmented__btn");
+        recommendBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                recommendBtns.forEach((b) => b.classList.remove("is-active"));
+                btn.classList.add("is-active");
+                recommendHidden.value = btn.dataset.value;
+            });
+        });
+        resetFns.push(() => {
+            recommendBtns.forEach((b) => b.classList.remove("is-active"));
+            recommendHidden.value = "";
+        });
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (form.botcheck.checked) return;
+
+            if (!accessKey) {
+                statusEl.textContent = labels.configMissing;
+                statusEl.dataset.state = "error";
+                return;
+            }
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+            payload.access_key = accessKey;
+            payload.subject = `Portfolio feedback — ${payload.project || "general"}`;
+            payload.from_name = payload.name || "Anonymous visitor";
+
+            submitBtn.disabled = true;
+            submitLabel.textContent = labels.submitting;
+            statusEl.textContent = "";
+            statusEl.removeAttribute("data-state");
+
+            try {
+                const res = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", Accept: "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const result = await res.json();
+                if (result.success) {
+                    form.reset();
+                    resetFns.forEach((fn) => fn());
+                    statusEl.textContent = labels.success;
+                    statusEl.dataset.state = "success";
+                } else {
+                    throw new Error(result.message || "submit failed");
+                }
+            } catch {
+                statusEl.textContent = labels.error;
+                statusEl.dataset.state = "error";
+            } finally {
+                submitBtn.disabled = false;
+                submitLabel.textContent = labels.submit;
+            }
+        });
+    </script>
+</Layout>
