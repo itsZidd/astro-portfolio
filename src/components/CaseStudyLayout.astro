@@ -473,16 +473,21 @@ function inlineCode(raw: string): string {
         .shot {
             flex: 0 0 auto;
             scroll-snap-align: start;
-            width: 280px;
+            height: 400px;
             border: 0.5px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
             background: var(--surface);
         }
         .shot img {
-            width: 100%;
-            height: auto;
+            height: 100%;
+            width: auto;
             display: block;
+        }
+        @media (max-width: 640px) {
+            .shot {
+                height: 320px;
+            }
         }
     </style>
 

@@ -2,7 +2,7 @@
 import CaseStudyLayout from "../components/CaseStudyLayout.astro";
 import { useTranslations } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
-import { icareLandslideContent } from "../content/icareLandslide.ts";
+import { icareLandslideContent, screenshotOrder } from "../content/icareLandslide.ts";
 
 interface Props {
     lang: Lang;
@@ -10,6 +10,11 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const c = icareLandslideContent[lang];
+
+const screenshots = screenshotOrder.map((key) => ({
+    src: `/work/ic-learn/${key}.png`,
+    alt: c.screenshotAlts[key],
+}));
 ---
 
 <CaseStudyLayout
@@ -27,6 +32,7 @@ const c = icareLandslideContent[lang];
             external: true,
         },
     ]}
+    screenshots={screenshots}
     featureGroups={c.featureGroups}
     stackGroups={c.stackGroups}
     studyTitle={c.studyTitle}

@@ -162,11 +162,12 @@ img, svg { display: block; max-width: 100%; }
   justify-content: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14.5px;
+  line-height: 1.4;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  word-spacing: 0.08em;
-  padding: 11px 22px;
+  letter-spacing: 0.06em;
+  word-spacing: 0.06em;
+  padding: 12px 22px;
   border-radius: var(--radius-sm);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;

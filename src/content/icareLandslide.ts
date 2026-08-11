@@ -87,6 +87,18 @@ export const icareLandslideContent = {
                 body: "Risk classifications and thematic maps are tailored to Jabung District, Malang Regency. Adapting the module to other districts requires uploading new GIS layers.",
             },
         ],
+
+        screenshotAlts: {
+            "splash-loading": "Splash/loading screen with progress bar while the module boots",
+            "login-signup": "Student login and sign-up screen",
+            "main-menu": "Main menu on mobile — six room cards plus a teacher-portal shortcut",
+            "main-menu-desktop": "Main menu on desktop with a personalized welcome greeting",
+            "connection-video": "Room 2 (Connection) — embedded landslide disaster field video",
+            "reflection-quiz": "Room 4 (Reflection) — timed 10-question spatial quiz",
+            "reflection-essay-map": "Room 4 (Reflection) — essay question referencing the Jabung landslide risk map",
+            "teacher-portal-gate": "Teacher-only portal access gate shown to teacher accounts",
+            "teacher-dashboard": "Teacher dashboard — class leaderboard, search, and certificate stats",
+        },
     },
 
     id: {
@@ -177,5 +189,29 @@ export const icareLandslideContent = {
                 body: "Klasifikasi risiko bencana dan layer peta tematik dalam modul ini disesuaikan khusus untuk karakteristik wilayah Kecamatan Jabung, Kabupaten Malang. Untuk mengadaptasi modul ini ke wilayah atau kecamatan lain, pengembang perlu mengunggah dan mengonfigurasi layer spasial GIS baru.",
             },
         ],
+
+        screenshotAlts: {
+            "splash-loading": "Layar splash/loading dengan progress bar saat modul dimuat",
+            "login-signup": "Layar masuk dan daftar akun siswa",
+            "main-menu": "Menu utama di mobile — enam kartu ruang belajar plus akses portal guru",
+            "main-menu-desktop": "Menu utama di desktop dengan sapaan selamat datang yang dipersonalisasi",
+            "connection-video": "Room 2 (Connection) — video lapangan bencana longsor yang tersemat",
+            "reflection-quiz": "Room 4 (Reflection) — kuis spasial berwaktu 10 soal",
+            "reflection-essay-map": "Room 4 (Reflection) — soal esai yang merujuk pada peta kerawanan longsor Jabung",
+            "teacher-portal-gate": "Gerbang akses portal khusus guru yang tampil untuk akun guru",
+            "teacher-dashboard": "Dashboard guru — papan peringkat kelas, pencarian, dan statistik sertifikat",
+        },
     },
 } as const;
+
+export const screenshotOrder = [
+    "splash-loading",
+    "login-signup",
+    "main-menu",
+    "main-menu-desktop",
+    "connection-video",
+    "reflection-quiz",
+    "reflection-essay-map",
+    "teacher-portal-gate",
+    "teacher-dashboard",
+] as const;
