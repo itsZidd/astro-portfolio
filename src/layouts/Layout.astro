@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 import { getLangFromUrl, getPathWithoutLang, useTranslations, getLocalizedPath } from "../i18n/utils";
 import { languages } from "../i18n/config";
@@ -58,8 +59,10 @@ const localeCodes = Object.keys(languages) as (keyof typeof languages)[];
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
+        <ClientRouter />
     </head>
     <body>
+        <div id="page-progress" class="page-progress-bar" aria-hidden="true"></div>
         <header class="site-header">
             <div class="wrap site-header__inner">
                 <a href={getLocalizedPath(lang, "/")} class="site-header__mark">
@@ -322,23 +325,55 @@ const localeCodes = Object.keys(languages) as (keyof typeof languages)[];
             }
         </style>
         <script>
-            const burgerBtn = document.getElementById("burger-btn");
-            const mobileMenu = document.getElementById("mobile-menu");
+            function initLayout() {
+                const burgerBtn = document.getElementById("burger-btn");
+                const mobileMenu = document.getElementById("mobile-menu");
 
-            if (burgerBtn && mobileMenu) {
-                burgerBtn.addEventListener("click", () => {
-                    const isOpen = burgerBtn.classList.toggle("is-active");
-                    mobileMenu.classList.toggle("is-open", isOpen);
-                    burgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-                });
-
-                document.querySelectorAll(".mobile-menu__link").forEach((link) => {
-                    link.addEventListener("click", () => {
-                        burgerBtn.classList.remove("is-active");
-                        mobileMenu.classList.remove("is-open");
-                        burgerBtn.setAttribute("aria-expanded", "false");
+                if (burgerBtn && mobileMenu && !burgerBtn.dataset.bound) {
+                    burgerBtn.dataset.bound = "true";
+                    burgerBtn.addEventListener("click", () => {
+                        const isOpen = burgerBtn.classList.toggle("is-active");
+                        mobileMenu.classList.toggle("is-open", isOpen);
+                        burgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
                     });
-                });
+
+                    document.querySelectorAll(".mobile-menu__link").forEach((link) => {
+                        link.addEventListener("click", () => {
+                            burgerBtn.classList.remove("is-active");
+                            mobileMenu.classList.remove("is-open");
+                            burgerBtn.setAttribute("aria-expanded", "false");
+                        });
+                    });
+                }
+            }
+
+            document.addEventListener("astro:before-preparation", () => {
+                const progress = document.getElementById("page-progress");
+                if (progress) {
+                    progress.classList.remove("is-finishing");
+                    progress.classList.add("is-loading");
+                    progress.style.width = "70%";
+                }
+            });
+
+            document.addEventListener("astro:page-load", () => {
+                const progress = document.getElementById("page-progress");
+                if (progress) {
+                    progress.style.width = "100%";
+                    progress.classList.add("is-finishing");
+                    setTimeout(() => {
+                        progress.classList.remove("is-loading", "is-finishing");
+                        progress.style.width = "0%";
+                    }, 350);
+                }
+                initLayout();
+            });
+
+            // Initial load fallback
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initLayout);
+            } else {
+                initLayout();
             }
         </script>
     </body>

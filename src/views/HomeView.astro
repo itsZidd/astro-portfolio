@@ -54,6 +54,16 @@ const categories = [
     { id: "GIS & Geospatial", label: t("filter.gis") },
     { id: "AI / ML", label: t("filter.aiml") },
 ];
+
+function inlineFormat(raw: string): string {
+    const escaped = raw
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    return escaped
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+}
 ---
 
 <Layout title="M. Zidan Malik — Software Developer & Geographer">
@@ -152,7 +162,7 @@ const categories = [
                                     <div class="project-card__body">
                                         <span class="project-card__category">{Array.isArray(p.category) ? p.category.join(" · ") : p.category}</span>
                                         <h3 class="project-card__title">{text.title}</h3>
-                                        <p class="project-card__summary">{text.summary}</p>
+                                        <p class="project-card__summary" set:html={inlineFormat(text.summary)}></p>
                                     </div>
 
                                     <div class="project-card__bottom">
@@ -715,13 +725,13 @@ const categories = [
     </style>
 
     <script>
-        // Category filtering logic
-        document.addEventListener("DOMContentLoaded", () => {
+        function initHomeView() {
+            // Category filtering logic
             const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
             const projectCards = document.querySelectorAll<HTMLElement>(".project-card-wrapper");
 
             filterBtns.forEach((btn) => {
-                btn.addEventListener("click", () => {
+                btn.onclick = () => {
                     filterBtns.forEach((b) => b.classList.remove("active"));
                     btn.classList.add("active");
 
@@ -744,7 +754,7 @@ const categories = [
                             }, 250);
                         }
                     });
-                });
+                };
             });
 
             // Email Copy Logic
@@ -752,7 +762,7 @@ const categories = [
             const copyLabel = document.getElementById("copy-email-label");
 
             if (copyBtn && copyLabel) {
-                copyBtn.addEventListener("click", () => {
+                copyBtn.onclick = () => {
                     const email = copyBtn.getAttribute("data-email") || "itszidanmalik@gmail.com";
                     const copiedText = copyBtn.getAttribute("data-label-copied") || "Copied to Clipboard!";
                     const originalText = copyBtn.getAttribute("data-label-copy") || "Copy Email";
@@ -764,8 +774,15 @@ const categories = [
                             copyLabel.textContent = originalText;
                         }, 2500);
                     });
-                });
+                };
             }
-        });
+        }
+
+        document.addEventListener("astro:page-load", initHomeView);
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initHomeView);
+        } else {
+            initHomeView();
+        }
     </script>
 </Layout>

@@ -23,6 +23,8 @@ const slugs: Record<string, string> = {
     "Drizzle": "drizzle",
     "Google Gemini": "googlegemini",
     "Better Auth": "betterauth",
+    "Next.js": "nextdotjs",
+    "OpenAI": "openai",
 };
 
 export const customTechIcons: Record<string, string> = {};

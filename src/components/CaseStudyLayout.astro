@@ -67,16 +67,19 @@ const {
 const t = useTranslations(lang);
 
 /**
- * Escapes HTML, then turns `backtick` segments into <code> spans.
+ * Escapes HTML, then turns `backtick` segments into <code> spans
+ * and *asterisk* segments into <em> spans (for italicized loanwords).
  * Content is our own dictionary text (not user input), but escaping
  * first keeps this safe regardless.
  */
-function inlineCode(raw: string): string {
+function inlineFormat(raw: string): string {
     const escaped = raw
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
-    return escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
+    return escaped
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
 }
 ---
 
@@ -92,7 +95,7 @@ function inlineCode(raw: string): string {
 
             <p class="eyebrow">{eyebrow}</p>
             <h1 class="h-display case__title">{displayTitle}</h1>
-            <p class="case__pitch">{pitch}</p>
+            <p class="case__pitch" set:html={inlineFormat(pitch)} />
 
             {
                 links.length > 0 && (
@@ -149,7 +152,7 @@ function inlineCode(raw: string): string {
                             <p class="eyebrow">{g.label}</p>
                             <ul>
                                 {g.items.map((item) => (
-                                    <li>{item}</li>
+                                    <li set:html={inlineFormat(item)} />
                                 ))}
                             </ul>
                         </div>
@@ -191,7 +194,7 @@ function inlineCode(raw: string): string {
                     story.map((block) => (
                         <div class="story__block glass-panel">
                             <p class="story__label">{block.label}</p>
-                            <p set:html={inlineCode(block.body)} />
+                            <p set:html={inlineFormat(block.body)} />
                         </div>
                     ))
                 }
@@ -205,7 +208,7 @@ function inlineCode(raw: string): string {
                     notes.map((n) => (
                         <div class="notes__item glass-panel">
                             <p class="notes__title">{n.title}</p>
-                            <p set:html={inlineCode(n.body)} />
+                            <p set:html={inlineFormat(n.body)} />
                         </div>
                     ))
                 }
@@ -403,30 +406,32 @@ function inlineCode(raw: string): string {
             top: 50%;
             transform: translateY(-50%);
             margin-top: -4px;
-            z-index: 2;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
         .shot-nav-wrap--prev {
-            left: -24px;
+            left: -20px;
         }
         .shot-nav-wrap--next {
-            right: -24px;
+            right: -20px;
         }
         .shot-nav {
-            width: 72px;
-            height: 72px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            border: 0.5px solid var(--border);
-            background: var(--surface-2);
+            border: 1px solid var(--border);
+            background: rgba(18, 20, 17, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.6);
             transition:
                 background 0.15s ease,
                 border-color 0.15s ease,
@@ -434,10 +439,10 @@ function inlineCode(raw: string): string {
                 transform 0.15s ease;
         }
         .shot-nav:hover {
-            background: var(--surface);
+            background: rgba(28, 30, 24, 0.98);
             border-color: var(--accent);
             color: var(--accent);
-            transform: scale(1.06);
+            transform: scale(1.08);
         }
         .shot-nav-wrap[data-disabled="true"] {
             opacity: 0;
@@ -471,22 +476,40 @@ function inlineCode(raw: string): string {
             border-radius: 8px;
         }
         .shot {
+            position: relative;
             flex: 0 0 auto;
             scroll-snap-align: start;
             height: 400px;
+            min-width: 280px;
+            aspect-ratio: 16 / 10;
             border: 0.5px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
-            background: var(--surface);
+            background: linear-gradient(
+                90deg,
+                rgba(18, 20, 17, 0.8) 0%,
+                rgba(151, 196, 89, 0.08) 50%,
+                rgba(18, 20, 17, 0.8) 100%
+            );
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 2s ease-in-out infinite;
         }
         .shot img {
+            position: relative;
+            z-index: 1;
             height: 100%;
             width: auto;
             display: block;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .shot img.is-loaded {
+            opacity: 1;
         }
         @media (max-width: 640px) {
             .shot {
                 height: 320px;
+                min-width: 220px;
             }
         }
     </style>
@@ -520,40 +543,66 @@ function inlineCode(raw: string): string {
                     const scrollByAmount = () =>
                         Math.round(track.clientWidth * 0.8);
 
-                    prevBtn.addEventListener("click", () => {
+                    prevBtn.onclick = () => {
                         track.scrollBy({
                             left: -scrollByAmount(),
                             behavior: "smooth",
                         });
-                    });
-                    nextBtn.addEventListener("click", () => {
+                    };
+                    nextBtn.onclick = () => {
                         track.scrollBy({
                             left: scrollByAmount(),
                             behavior: "smooth",
                         });
-                    });
+                    };
 
                     const updateButtons = () => {
-                        const maxScroll =
-                            track.scrollWidth - track.clientWidth - 2;
+                        const maxScroll = track.scrollWidth - track.clientWidth;
+                        const canScrollPrev = track.scrollLeft > 4;
+                        const hasOverflow = track.scrollWidth > track.clientWidth + 4;
+                        const canScrollNext = hasOverflow && track.scrollLeft < maxScroll - 4;
+
                         prevWrap.setAttribute(
                             "data-disabled",
-                            String(track.scrollLeft <= 0),
+                            String(!canScrollPrev),
                         );
                         nextWrap.setAttribute(
                             "data-disabled",
-                            String(track.scrollLeft >= maxScroll),
+                            String(!canScrollNext),
                         );
                     };
+
+                    const imgs = track.querySelectorAll<HTMLImageElement>("img");
+                    imgs.forEach((img) => {
+                        const handleLoad = () => {
+                            img.classList.add("is-loaded");
+                            updateButtons();
+                        };
+                        if (img.complete && img.naturalWidth > 0) {
+                            handleLoad();
+                        } else {
+                            img.addEventListener("load", handleLoad, { once: true });
+                            img.addEventListener("error", handleLoad, { once: true });
+                        }
+                    });
 
                     track.addEventListener("scroll", updateButtons, {
                         passive: true,
                     });
                     window.addEventListener("resize", updateButtons);
+
+                    if (window.ResizeObserver) {
+                        const ro = new ResizeObserver(() => updateButtons());
+                        ro.observe(track);
+                    }
+
                     updateButtons();
+                    setTimeout(updateButtons, 100);
+                    setTimeout(updateButtons, 350);
                 });
         }
 
+        document.addEventListener("astro:page-load", initShotCarousels);
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", initShotCarousels);
         } else {

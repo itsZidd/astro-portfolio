@@ -57,13 +57,19 @@ const codes = Object.keys(languages) as Lang[];
 </style>
 
 <script>
-    // Remember the visitor's chosen language so a bare "/" visit
-    // (which static-redirects to /en/) can bounce them to /id/ instead
-    // if that's what they picked last time.
-    document.querySelectorAll<HTMLAnchorElement>(".lang-switch__item").forEach((el) => {
-        el.addEventListener("click", () => {
-            const lang = el.dataset.lang;
-            if (lang) localStorage.setItem("preferred-lang", lang);
+    function initLangSwitcher() {
+        document.querySelectorAll<HTMLAnchorElement>(".lang-switch__item").forEach((el) => {
+            el.onclick = () => {
+                const lang = el.dataset.lang;
+                if (lang) localStorage.setItem("preferred-lang", lang);
+            };
         });
-    });
+    }
+
+    document.addEventListener("astro:page-load", initLangSwitcher);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initLangSwitcher);
+    } else {
+        initLangSwitcher();
+    }
 </script>

@@ -63,5 +63,17 @@ export const projects: Project[] = [
         status: "live",
         repoUrl: "https://github.com/itsZidd/astro-portfolio",
     },
+    {
+        slug: "sumz",
+        file: "sumz.tsx",
+        title: "Sumz — AI Article Summarizer",
+        category: ["Software", "AI / ML"],
+        date: "Jul 2023 · Sep 2026 rev",
+        summary:
+            "A Next.js & Google Gemini article summarizer that extracts clean page text with Mozilla Readability (no third-party extraction APIs), hardened with SSRF protection, robots.txt compliance, and in-memory rate limiting — rebuilt from an early 2023 OpenAI-era project.",
+        stack: ["Next.js", "React", "TypeScript", "TailwindCSS", "Google Gemini"],
+        status: "live",
+        repoUrl: "https://github.com/itsZidd/Sumz",
+    },
 ];
 

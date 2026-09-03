@@ -26,6 +26,10 @@ export const projectTranslationsId: Record<
         summary:
             "E-modul pembelajaran edukasi interaktif berbasis SvelteKit untuk pendidikan geografi dan mitigasi bencana tanah longsor di Kecamatan Jabung, Kabupaten Malang. Menggabungkan eksplorasi peta 3D, 5 ruang belajar interaktif, penilai esai refleksi berbasis Gemini AI, serta portal analitik guru — dibangun ulang sepenuhnya dari ekspor Articulate Storyline 360 yang bermasalah.",
     },
+    "sumz": {
+        summary:
+            "Aplikasi perangkum artikel *web* berbasis Next.js 16 dan Google Gemini yang mengekstrak konten menggunakan Mozilla Readability langsung di server tanpa API ekstraksi pihak ketiga. Dilengkapi proteksi SSRF, kepatuhan *robots.txt*, dan pembatasan laju pemanggilan (*rate limiting*) — dibangun ulang dari proyek AI pertama era ChatGPT/OpenAI tahun 2023.",
+    },
 };
 
 /** Category labels, for when the "Selected Work" grid groups by category later. */
