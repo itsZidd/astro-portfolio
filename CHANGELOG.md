@@ -10,6 +10,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - **Sumz — AI Article Summarizer** project: full case-study page (`/work/sumz`), bilingual (en/id) content, screenshot gallery (4 optimized images), and tech-tag stats mapping
+- **Redesigned What's Built Showcase**: Replaced generic card lists with dedicated feature cards (`.features-grid` / `.feature-card`) featuring dynamic numeric index badges (`01`, `02`), top accent gradient lines, interactive chevron bullets, and elevated hover states to eliminate visual monotony against the tech stack section
 - **Universal Loading Skeletons & Transitions**: `<ClientRouter />` SPA transitions with an emerald-amber top progress bar indicator (`#page-progress`) and animated shimmer skeleton loaders for cards and media
 - **Content & Localization Guidelines**: `docs/content-template.md` documenting the structure, schema, and English vs. Indonesian editorial guidelines (rich contextual explanations in Indonesian, with all English/foreign loanwords in italics)
 - **Inline Italic & Code Parser**: `inlineFormat` utility in `CaseStudyLayout` and `HomeView` allowing markdown `*term*` and `backticks` across pitches, features, story blocks, and limitation notes

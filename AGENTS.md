@@ -7,7 +7,16 @@
 2. **Version Synchronization**:
    - Bump the version in `package.json` to match the latest version recorded in `CHANGELOG.md`.
 
-3. **Git Tagging & Push**:
+3. **Commitlint & Conventional Commits**:
+   - Every commit message MUST strictly adhere to the Conventional Commits / Commitlint format:
+     `<type>(<scope>): <short summary>`
+   - Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`.
+   - Examples:
+     - `feat(case-study): redesign what's built section with dynamic feature cards`
+     - `fix(carousel): resolve lazy-load scroll calculation for navigation buttons`
+     - `docs(template): add English loanword italicization rule for Indonesian copy`
+
+4. **Git Tagging & Push**:
    - Create a corresponding git tag matching the version (e.g., `git tag v0.2.0`).
    - Commit all changes cleanly with meaningful messages and push both commits and tags to GitHub (`git push && git push --tags`).
 
