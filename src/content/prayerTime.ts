@@ -166,25 +166,25 @@ export const prayerTimeContent = {
     },
 
     id: {
-        pitch: "Sebuah aplikasi pendamping ibadah salat mobile berbasis offline-first yang dibangun menggunakan React Native dan Expo tanpa ketergantungan pada server backend — seluruh kalkulasi astronomi dihitung secara dinamis langsung di perangkat pengguna (on-device). Aplikasi ini menyediakan modul kalkulasi waktu salat astronomis kustom, pencarian reverse-geocoding dan resolusi zona waktu secara offline tanpa koneksi internet, pembaca Al-Qur'an lengkap 30 Juz dengan verifikasi kaidah tajwid pada seluruh 6.236 ayat, perkakas Adhkar & Tasbih digital, serta sistem penjadwalan notifikasi lokal pintar berlatar belakang. Seluruh preferensi dan data pengguna tersimpan secara aman di penyimpanan lokal, disajikan dalam antarmuka dwibahasa (Indonesia/Inggris) dengan dukungan tema terang dan gelap penuh.",
+        pitch: "Sebuah aplikasi pendamping ibadah salat *mobile* berbasis *offline-first* yang dibangun menggunakan React Native dan Expo tanpa ketergantungan pada server *backend* — seluruh kalkulasi astronomi dihitung secara dinamis langsung di perangkat pengguna (*on-device*). Aplikasi ini menyediakan modul kalkulasi waktu salat astronomis kustom, pencarian *reverse-geocoding* dan resolusi zona waktu secara *offline* tanpa koneksi internet, pembaca Al-Qur'an lengkap 30 Juz dengan verifikasi kaidah tajwid pada seluruh 6.236 ayat, perkakas Adhkar & Tasbih digital, serta sistem penjadwalan notifikasi lokal pintar di latar belakang (*background notification*). Seluruh preferensi dan data pengguna tersimpan secara aman di penyimpanan lokal, disajikan dalam antarmuka dwibahasa (Indonesia/Inggris) dengan dukungan tema terang dan gelap penuh.",
 
         featureGroups: [
             {
                 label: "Kalkulasi Waktu Salat & Lokasi",
                 items: [
                     "Mesin perhitungan astronomi kustom — mendukung 17 metode standar internasional, penyesuaian mazhab Asar (Standar/Hanafi), serta lima penanganan khusus wilayah lintang tinggi.",
-                    "Integrasi lokasi otomatis via GPS atau input kustom manual, dilengkapi resolusi batas negara dan zona waktu secara offline tanpa perlu panggilan API jaringan.",
-                    "Hitung mundur waktu salat berikutnya secara real-time, kalender Hijriah, tabel jadwal mingguan/bulanan, dan kompas penunjuk arah kiblat presisi.",
-                    "Fitur pemantau runtutan salat (prayer streak) dan checklist ibadah puasa harian yang secara otomatis tampil khusus selama bulan suci Ramadan.",
+                    "Integrasi lokasi otomatis via GPS atau input kustom manual, dilengkapi resolusi batas negara dan zona waktu secara *offline* tanpa perlu panggilan API jaringan.",
+                    "Hitung mundur waktu salat berikutnya secara *real-time*, kalender Hijriah, tabel jadwal mingguan/bulanan, dan kompas penunjuk arah kiblat presisi.",
+                    "Fitur pemantau runtutan salat (*prayer streak*) dan *checklist* ibadah puasa harian yang secara otomatis tampil khusus selama bulan suci Ramadan.",
                 ],
             },
             {
                 label: "Al-Qur'an Digital & Tajweed Interaktif",
                 items: [
                     "Teks Al-Qur'an lengkap dalam bahasa Arab (Utsmani), terjemahan bahasa Indonesia, Inggris, serta teks transliterasi latin — dapat dijelajahi per Surah maupun per Juz dengan fitur pencarian teks.",
-                    "Penyimpanan bookmark ayat dengan catatan kustom personal, serta pelacak posisi bacaan terakhir untuk melanjutkan bacaan dengan mudah.",
-                    "Kustomisasi ukuran font Arab, serta header nama surah yang tetap menempel di posisi atas layar (sticky header) saat membaca.",
-                    "Pewarnaan tajwid interaktif — data kaidah tajwid telah dibangun dan diverifikasi secara independen untuk seluruh 6.236 ayat (dinonaktifkan sementara demi optimasi performa render).",
+                    "Penyimpanan *bookmark* ayat dengan catatan kustom personal, serta pelacak posisi bacaan terakhir untuk melanjutkan bacaan dengan mudah.",
+                    "Kustomisasi ukuran *font* Arab, serta *header* nama surah yang tetap menempel di posisi atas layar (*sticky header*) saat membaca.",
+                    "Pewarnaan tajwid interaktif — data kaidah tajwid telah dibangun dan diverifikasi secara independen untuk seluruh 6.236 ayat (dinonaktifkan sementara demi optimasi performa *render*).",
                 ],
             },
             {
@@ -200,7 +200,7 @@ export const prayerTimeContent = {
                 items: [
                     "Kustomisasi tema antarmuka (gelap/terang/mengikuti sistem) dipadukan dengan 5 variasi warna aksen, metode perhitungan salat, mazhab Asar, dan aturan lintang tinggi.",
                     "Audio adzan lengkap per waktu salat (rekaman kualitas tinggi dari Doha, Qatar) dengan fitur pratinjau suara langsung.",
-                    "Pengalih bahasa otomatis yang mendeteksi bahasa sistem smartphone saat pertama kali dibuka, serta dapat diubah kapan saja melalui menu Pengaturan.",
+                    "Pengalih bahasa otomatis yang mendeteksi bahasa sistem *smartphone* saat pertama kali dibuka, serta dapat diubah kapan saja melalui menu Pengaturan.",
                 ],
             },
         ],
@@ -240,47 +240,47 @@ export const prayerTimeContent = {
                 items: [
                     "Teks dan terjemahan Al-Qur'an dari quran-json / Tanzil dan quran-meta (Arab Utsmani, Inggris, Indonesia, transliterasi).",
                     "Data kaidah tajwid dari AlQuranCloud yang diverifikasi independen kaidah demi kaidah pada seluruh 6.236 ayat.",
-                    "react-native-webview untuk menjamin ketepatan penggabungan huruf kursif Arab pada teks berwarna — lihat studi kasus.",
+                    "react-native-webview untuk menjamin ketepatan penggabungan huruf kursif Arab pada teks berwarna — lihat sorotan teknis.",
                 ],
             },
             {
                 label: "Penyimpanan Lokal & Navigation",
                 items: [
-                    "AsyncStorage untuk seluruh persistensi data — preferensi pengaturan, bookmark, log ibadah, hitungan tasbih, dan preferensi bahasa.",
-                    "Arsitektur navigasi buatan sendiri — bottom tab bar + pengelolaan state komponen lokal tanpa React Navigation.",
+                    "AsyncStorage untuk seluruh persistensi data — preferensi pengaturan, *bookmark*, *log* ibadah, hitungan tasbih, dan preferensi bahasa.",
+                    "Arsitektur navigasi buatan sendiri — *bottom tab bar* + pengelolaan *state* komponen lokal tanpa React Navigation.",
                 ],
             },
             {
                 label: "i18n & Tipografi",
                 items: [
-                    "Kamus terjemahan kustom berbasis context ringan (tanpa i18next).",
-                    "expo-localization untuk deteksi otomatis bahasa sistem perangkat saat onboarding.",
-                    "Amiri Quran (SIL Open Font License) untuk rendering tipografi Arab yang elegan.",
+                    "Kamus terjemahan kustom berbasis *context* ringan (tanpa i18next).",
+                    "expo-localization untuk deteksi otomatis bahasa sistem perangkat saat *onboarding*.",
+                    "Amiri Quran (SIL Open Font License) untuk *rendering* tipografi Arab yang elegan.",
                 ],
             },
         ],
 
-        studyTitle: "Studi Kasus Rekayasa: Rendering Tajwid Interaktif vs. Performa Antarmuka",
+        studyTitle: "Sorotan Teknis: Rendering Tajwid Interaktif vs. Performa Antarmuka",
         story: [
             {
                 label: "Permasalahan Shaping Glyph Huruf Arab",
-                body: "Penerapan kaidah tajwid mengharuskan huruf atau kelompok huruf tertentu dalam ayat Al-Qur'an diberi warna yang berbeda sesuai hukum pelafalannya. Pendekatan awal menggunakan komponen `<Text>` native React Native dengan span anak (`<Text style={{color}}>`) berwarna ternyata merusak mekanisme penyambungan huruf Arab (letter joining/shaping glyph). Begitu huruf-huruf dalam satu kata kursif dipecah ke dalam beberapa node `<Text>` bermerek beda, mesin penata grafis OS gagal menyambungkan karakter Arab, menyebabkan kata-kata terputus, tumpang tindih, atau terpisah secara tidak alami pada titik pergantian warna. Masalah ini terjadi pada tingkat font shaper sebelum proses layout CSS, sehingga tidak dapat diperbaiki hanya dengan pengaturan margin atau letter-spacing.",
+                body: "Penerapan kaidah tajwid mengharuskan huruf atau kelompok huruf tertentu dalam ayat Al-Qur'an diberi warna yang berbeda sesuai hukum pelafalannya. Pendekatan awal menggunakan komponen `<Text>` *native* React Native dengan *span* anak (`<Text style={{color}}>`) berwarna ternyata merusak mekanisme penyambungan huruf Arab (*letter joining* / *glyph shaping*). Begitu huruf-huruf dalam satu kata kursif dipecah ke dalam beberapa *node* `<Text>` bermerek beda, mesin penata grafis OS gagal menyambungkan karakter Arab, menyebabkan kata-kata terputus, tumpang tindih, atau terpisah secara tidak alami pada titik pergantian warna. Masalah ini terjadi pada tingkat *font shaper* sebelum proses *layout* CSS, sehingga tidak dapat diperbaiki hanya dengan pengaturan *margin* atau *letter-spacing*.",
             },
             {
                 label: "Solusi Ketepatan Visual Berbasis WebView Engine",
-                body: "Mesin rendering browser HTML/CSS dirancang secara native untuk mampu menyambungkan huruf Arab kursif secara sempurna meskipun dipisahkan oleh tag `<span>` ber-style. Oleh karena itu, rendering ayat dengan pewarnaan tajwid dipindahkan menggunakan komponen `react-native-webview`. Pada pendekatan ini, setiap ayat dikonversi menjadi dokumen HTML ringkas dengan styling kelas CSS pada elemen span. Solusi ini berhasil menyelesaikan masalah visual ketepatan huruf Arab 100%: seluruh 17 kaidah tajwid divalidasi silang terhadap sumber data terpisah dan parser terverifikasi di seluruh 6.236 ayat Al-Qur'an tanpa kesalahan visual.",
+                body: "Mesin *rendering browser* HTML/CSS dirancang secara *native* untuk mampu menyambungkan huruf Arab kursif secara sempurna meskipun dipisahkan oleh *tag* `<span>` ber-*style*. Oleh karena itu, *rendering* ayat dengan pewarnaan tajwid dipindahkan menggunakan komponen `react-native-webview`. Pada pendekatan ini, setiap ayat dikonversi menjadi dokumen HTML ringkas dengan *styling* kelas CSS pada elemen *span*. Solusi ini berhasil menyelesaikan masalah visual ketepatan huruf Arab 100%: seluruh 17 kaidah tajwid divalidasi silang terhadap sumber data terpisah dan *parser* terverifikasi di seluruh 6.236 ayat Al-Qur'an tanpa kesalahan visual.",
             },
             {
                 label: "Analisis Regresi Performa & Beban Memori",
-                body: "Meskipun secara visual sempurna, pendekatan WebView menimbulkan dampak regresi performa scrolling yang signifikan. Setiap ayat Al-Qur'an diproses sebagai satu instance WebView terisolasi, yang berarti mesin WebView harus mengurai (parse) dan memuat ulang data berkas font Arab Amiri setiap kali instance baru dimuat saat scrolling. Pengujian A/B yang terkontrol (menggunakan surah yang sama, kecepatan scroll yang sama, membandingkan mode tajwid aktif vs. non-aktif) mengonfirmasi adanya penurunan frame-rate (lag) secara konsisten yang bersumber spesifik dari proses instansiasi WebView dan parsing font.",
+                body: "Meskipun secara visual sempurna, pendekatan WebView menimbulkan dampak regresi performa *scrolling* yang signifikan. Setiap ayat Al-Qur'an diproses sebagai satu *instance* WebView terisolasi, yang berarti mesin WebView harus mengurai (*parse*) dan memuat ulang data berkas *font* Arab Amiri setiap kali *instance* baru dimuat saat *scrolling*. Pengujian A/B yang terkontrol (menggunakan surah yang sama, kecepatan *scroll* yang sama, membandingkan mode tajwid aktif vs. non-aktif) mengonfirmasi adanya penurunan *frame-rate* (*lag*) secara konsisten yang bersumber spesifik dari proses instansiasi WebView dan *parsing font*.",
             },
             {
                 label: "Evaluasi Mitigasi & Eksperimen Teknis",
-                body: "Dua langkah optimasi dicoba untuk mengatasi masalah ini. Pertama, pengubahan metode pemuatan font dari penyematan string base64 menjadi penunjukan path berkas lokal via `expo-asset` — dengan hipotesis bahwa mesin WebView dapat menyimpan cache font berdasarkan URI berkas. Eksperimen diuji langsung pada perangkat pengembangan, namun hasil menunjukkan bahwa WebView tetap mem-parse ulang font pada tiap instance baru. Kedua, penggunaan teknik virtualisasi daftar (FlashList) dianalisis, namun dikesalkan karena FlashList mengoptimalkan daur ulang node DOM native, sementara hambatan utama berada di dalam siklus internal internal mesin WebView yang berada di luar jangkauan virtualisasi.",
+                body: "Dua langkah optimasi dicoba untuk mengatasi masalah ini. Pertama, pengubahan metode pemuatan *font* dari penyematan *string* base64 menjadi penunjukan *path* berkas lokal via `expo-asset` — dengan hipotesis bahwa mesin WebView dapat menyimpan *cache font* berdasarkan URI berkas. Eksperimen diuji langsung pada perangkat pengembangan, namun hasil menunjukkan bahwa WebView tetap mem-*parse* ulang *font* pada tiap *instance* baru. Kedua, penggunaan teknik virtualisasi daftar (FlashList) dianalisis, namun dikesampingkan karena FlashList mengoptimalkan daur ulang *node* DOM *native*, sementara hambatan utama berada di dalam siklus internal mesin WebView yang berada di luar jangkauan virtualisasi.",
             },
             {
-                label: "Keputusan Arsitektur & Strategi Fitur Flag",
-                body: "Demi menjaga responsivitas dan kenyamanan pengguna saat membaca Al-Qur'an, fitur pewarnaan tajwid untuk sementara waktu dinonaktifkan secara aman menggunakan konstanta feature flag (`TAJWEED_FEATURE_ENABLED`). Seluruh UI toggle tajwid disembunyikan dan alur rendering dipaksa menggunakan teks native yang cepat. Keputusan ini diambil tanpa membuang hasil kerja yang ada: seluruh data parser 6.236 ayat, pustaka warna, dan struktur HTML tetap utuh di basis kode. Solusi jangka panjang — yaitu merestrukturisasi alur WebView agar merender satu halaman atau satu surah penuh dalam satu instance WebView tunggal alih-alih per ayat — telah dijadwalkan untuk tahap pengembangan berikutnya.",
+                label: "Keputusan Arsitektur & Strategi Feature Flag",
+                body: "Demi menjaga responsivitas dan kenyamanan pengguna saat membaca Al-Qur'an, fitur pewarnaan tajwid untuk sementara waktu dinonaktifkan secara aman menggunakan konstanta *feature flag* (`TAJWEED_FEATURE_ENABLED`). Seluruh UI *toggle* tajwid disembunyikan dan alur *rendering* dipaksa menggunakan teks *native* yang cepat. Keputusan ini diambil tanpa membuang hasil kerja yang ada: seluruh data *parser* 6.236 ayat, pustaka warna, dan struktur HTML tetap utuh di basis kode. Solusi jangka panjang — yaitu merestrukturisasi alur WebView agar me-*render* satu halaman atau satu surah penuh dalam satu *instance* WebView tunggal alih-alih per ayat — telah dijadwalkan untuk tahap pengembangan berikutnya.",
             },
         ],
 
@@ -291,11 +291,11 @@ export const prayerTimeContent = {
             },
             {
                 title: "Audio Adzan Otomatis & Sesi Native",
-                body: "Berkas suara Adzan lengkap telah disertakan dalam aplikasi dan dapat diputar melalui fitur pratinjau di menu Pengaturan. Namun, pemutaran suara Adzan penuh secara otomatis dari notifikasi layar terkunci (background notification) memerlukan integrasi sesi audio native khusus yang berada di luar batas kapabilitas build standar Expo.",
+                body: "Berkas suara Adzan lengkap telah disertakan dalam aplikasi dan dapat diputar melalui fitur pratinjau di menu Pengaturan. Namun, pemutaran suara Adzan penuh secara otomatis dari notifikasi layar terkunci (*background notification*) memerlukan integrasi sesi audio *native* khusus yang berada di luar batas kapabilitas *build* standar Expo.",
             },
             {
                 title: "Kelengkapan Cakupan Terjemahan Antarmuka",
-                body: "Infrastruktur lokalisasi dwibahasa (context, kamus terjemahan, dan penyimpanan preferensi) telah diimplementasikan sepenuhnya di tingkat arsitektur. Saat ini terjemahan bahasa Indonesia telah diterapkan pada bilah navigasi, onboarding, dan studi kasus, sementara beberapa submenu detail akan diperluas pada rilis berikutnya.",
+                body: "Infrastruktur lokalisasi dwibahasa (*context*, kamus terjemahan, dan penyimpanan preferensi) telah diimplementasikan sepenuhnya di tingkat arsitektur. Saat ini terjemahan bahasa Indonesia telah diterapkan pada bilah navigasi, *onboarding*, dan sorotan teknis, sementara beberapa submenu detail akan diperluas pada rilis berikutnya.",
             },
             {
                 title: "Status Modul Doa & Dzikir Harian",
@@ -303,7 +303,7 @@ export const prayerTimeContent = {
             },
             {
                 title: "Pengelolaan State Layanan Navigasi Tab",
-                body: "Demi efisiensi konsumsi memori perangkat, hanya tab aktif yang di-mount ke dalam memori pada satu waktu. Berpindah tab akan melepaskan (unmount) tampilan sebelumnya, sehingga posisi scroll akan kembali ke atas saat tab dibuka ulang. Ini merupakan keputusan desain yang disengaja untuk menjaga performa perangkat spek rendah.",
+                body: "Demi efisiensi konsumsi memori perangkat, hanya tab aktif yang di-*mount* ke dalam memori pada satu waktu. Berpindah tab akan melepaskan (*unmount*) tampilan sebelumnya, sehingga posisi *scroll* akan kembali ke atas saat tab dibuka ulang. Ini merupakan keputusan desain yang disengaja untuk menjaga performa perangkat berspesifikasi rendah.",
             },
         ],
 

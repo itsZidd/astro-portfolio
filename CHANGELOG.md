@@ -5,6 +5,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## 2026-09-04 (v0.3.0)
+
+### Added
+
+- **Responsive Image Lightbox & Pan-Zoom Modal**: Added `<ImageLightbox />` for all project screenshot galleries with 1x/2.2x zoom toggle, double-tap/double-click zoom, touch swipe navigation, pull-to-dismiss gesture, pinch-to-zoom, keyboard controls (Esc, Arrow keys, + / -), drag panning, and responsive mobile touch support.
+
+### Changed
+
+- **Indonesian Copy Terminology**: Replaced all instances of "Studi Kasus" with "Sorotan Teknis" across UI buttons (`work.details`), project summaries, narrative engineering case-study titles, and content documentation.
+
+### Fixed
+
+- **Portrait & Small Screenshot Container Sizing**: Removed hardcoded `aspect-ratio: 16 / 10` that forced portrait and narrow screenshots into oversized landscape boxes with dead black background space; `.shot` containers now dynamically adapt their width to the intrinsic dimensions of loaded images while keeping a clean shimmer skeleton during pre-load.
+
 ## 2026-09-03 (v0.2.0)
 
 ### Added

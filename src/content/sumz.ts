@@ -168,7 +168,7 @@ export const sumzContent = {
             },
         ],
 
-        studyTitle: "Studi Kasus: Dari Prototipe OpenAI 2023 ke Arsitektur Next.js 2026 yang Tangguh",
+        studyTitle: "Sorotan Teknis: Dari Prototipe OpenAI 2023 ke Arsitektur Next.js 2026 yang Tangguh",
         story: [
             {
                 label: "Awal Mula (Juli 2023): Proyek AI Pertama",

@@ -222,23 +222,24 @@ img, svg { display: block; max-width: 100%; }
 p,
 .hero__intro,
 .about__text,
-p, 
-.hero__intro, 
-.about__text, 
-.contact-card__text, 
-.project-card__summary, 
-.case__pitch, 
-.stats__intro, 
-.story__block p, 
-.notes__item p, 
-.stack-group li {
+.contact-card__text,
+.project-card__summary,
+.case__pitch,
+.stats__intro,
+.story__block p,
+.notes__item p,
+.feature-card__text {
   text-align: justify;
   text-justify: inter-word;
+  text-align-last: left;
   hyphens: auto;
   -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
-/* Headings and Subtitles must ALWAYS be left-aligned */
+/* Headings, chips, and items that must ALWAYS be left-aligned */
 h1, h2, h3, h4, h5, h6,
 .section-title,
 .notes__title,
@@ -248,13 +249,15 @@ h1, h2, h3, h4, h5, h6,
 .project-card__title,
 .skills-group__title,
 .contact-card__title,
-.stats__title {
+.stats__title,
+.stack-group li,
+.skills-group li,
+.project-card__stack,
+.tech-chip {
   text-align: left !important;
   text-justify: auto !important;
-}
-.stats__title {
-  text-align: left !important;
-  text-justify: auto !important;
+  text-align-last: left !important;
+  hyphens: manual;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -309,20 +312,31 @@ hr, .divider, .case__divider {
     padding-inline: 16px !important;
   }
 
-  /* Small screen paragraph justification with automatic hyphenation */
+  /* Small screen paragraph justification with automatic hyphenation and balance */
   p, 
   .hero__intro, 
   .about__text, 
-  .contact-card__text, 
   .story__block p, 
   .notes__item p, 
-  .project-card__summary, 
-  .case__pitch, 
-  .stack-group li {
-    text-align: justify !important;
-    text-justify: inter-word !important;
-    hyphens: auto !important;
-    -webkit-hyphens: auto !important;
+  .case__pitch {
+    text-align: justify;
+    text-justify: inter-word;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    text-wrap: pretty;
+  }
+
+  /* Short/narrow card blocks on mobile look cleaner left-aligned to avoid wide gaps */
+  .contact-card__text,
+  .project-card__summary,
+  .stack-group li,
+  .feature-card__text {
+    text-align: left !important;
+    text-justify: auto !important;
+    text-align-last: left !important;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   .btn, .filter-btn, .hero__stat-value, .hero__stat-label, .site-header__mark {

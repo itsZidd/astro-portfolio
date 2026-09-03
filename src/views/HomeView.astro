@@ -82,7 +82,7 @@ function inlineFormat(raw: string): string {
 
             <h1 class="h-display hero__name">M. Zidan Malik</h1>
             <p class="hero__role">{t("hero.role")}</p>
-            <p class="hero__intro">{t("hero.intro")}</p>
+            <p class="hero__intro" set:html={inlineFormat(t("hero.intro"))}></p>
 
             <div class="hero__actions">
                 <a href="#work" class="btn btn-primary">
@@ -195,7 +195,7 @@ function inlineFormat(raw: string): string {
         <div class="wrap">
             <span class="eyebrow">Background</span>
             <h2 class="section-title">{t("about.title")}</h2>
-            <p class="about__text">{t("about.text")}</p>
+            <p class="about__text" set:html={inlineFormat(t("about.text"))}></p>
 
             <div class="skills-grid">
                 {
@@ -228,7 +228,7 @@ function inlineFormat(raw: string): string {
                 <div class="contact-card__content">
                     <span class="eyebrow">Get In Touch</span>
                     <h2 class="contact-card__title">{t("contact.title")}</h2>
-                    <p class="contact-card__text">{t("contact.text")}</p>
+                    <p class="contact-card__text" set:html={inlineFormat(t("contact.text"))}></p>
 
                     <div class="contact__actions">
                         <button
@@ -527,6 +527,10 @@ function inlineFormat(raw: string): string {
             line-height: 1.6;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
             flex-grow: 1;
         }
         .project-card__bottom {
@@ -589,6 +593,10 @@ function inlineFormat(raw: string): string {
             margin-top: 8px;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .skills-grid {
             display: grid;
@@ -675,6 +683,10 @@ function inlineFormat(raw: string): string {
             margin-bottom: 28px;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .contact__actions {
             display: flex;

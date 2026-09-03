@@ -129,7 +129,7 @@ export const ui = {
         "hero.available": "Tersedia untuk proyek & riset",
         "hero.role": "Pengembang Perangkat Lunak & Geograf",
         "hero.intro":
-            "Saya merancang dan membangun sistem perangkat lunak modern — mulai dari aplikasi web, aplikasi mobile, hingga infrastruktur backend — serta memanfaatkannya untuk memetakan dan menganalisis fenomena geospasial di dunia nyata. Dengan memadukan rekayasa perangkat lunak modern, sistem informasi geografis (GIS), penginderaan jauh, dan kalkulasi astronomi serta machine learning terapan, saya menghadirkan solusi teknis yang presisi, efisien, dan bermanfaat.",
+            "Saya merancang dan membangun sistem perangkat lunak modern — mulai dari aplikasi *web*, aplikasi *mobile*, hingga infrastruktur *backend* — serta memanfaatkannya untuk memetakan dan menganalisis fenomena geospasial di dunia nyata. Dengan memadukan rekayasa perangkat lunak modern, sistem informasi geografis (GIS), penginderaan jauh, dan kalkulasi astronomi serta *machine learning* terapan, saya menghadirkan solusi teknis yang presisi, efisien, dan bermanfaat.",
         "hero.cta_work": "Lihat Karya",
         "hero.cta_contact": "Hubungi Saya",
         "hero.stat_projects": "Karya Unggulan",
@@ -144,12 +144,12 @@ export const ui = {
         "filter.aiml": "AI / ML",
         "status.live": "live",
         "status.progress": "dalam proses",
-        "work.details": "Lihat Studi Kasus",
+        "work.details": "Lihat Sorotan Teknis",
 
         // Home — about
         "about.title": "Tentang & Keahlian",
         "about.text":
-            "Saat ini saya sedang menempuh studi sarjana geografi di Universitas Negeri Malang. Latar belakang akademik ini saya perkuat dengan pengalaman praktis dalam analisis GIS, pengolahan citra penginderaan jauh, dan survei lapangan geospasial untuk berbagai proyek pemerintah daerah maupun instansi pusat. Di saat yang sama, saya mendalami rekayasa perangkat lunak secara autodidaks dan terstruktur — menguasai pengembangan aplikasi web dan mobile (React Native, SvelteKit, Astro, Python), serta mengintegrasikan pemodelan machine learning terapan (seperti RAG, klasifikasi, dan pemrosesan data AI) untuk menyelesaikan permasalahan spasial maupun sistemik secara holistik.",
+            "Saat ini saya sedang menempuh studi sarjana geografi di Universitas Negeri Malang. Latar belakang akademik ini saya perkuat dengan pengalaman praktis dalam analisis GIS, pengolahan citra penginderaan jauh, dan survei lapangan geospasial untuk berbagai proyek pemerintah daerah maupun instansi pusat. Di saat yang sama, saya mendalami rekayasa perangkat lunak secara autodidaks dan terstruktur — menguasai pengembangan aplikasi *web* dan *mobile* (React Native, SvelteKit, Astro, Python), serta mengintegrasikan pemodelan *machine learning* terapan (seperti RAG, klasifikasi, dan pemrosesan data AI) untuk menyelesaikan permasalahan spasial maupun sistemik secara holistik.",
         "skills.software": "Rekayasa Perangkat Lunak",
         "skills.gis": "GIS & Penginderaan Jauh",
         "skills.aiml": "AI & ML Terapan",
@@ -157,7 +157,7 @@ export const ui = {
         // Home — contact
         "contact.title": "Mari Berkolaborasi",
         "contact.text":
-            "Saya selalu terbuka untuk peluang karir rekayasa perangkat lunak, proyek konsultasi dan analisis geospasial, pengembangan sistem GIS custom, serta kolaborasi riset teknis antardisiplin. Mari berdiskusi tentang ide atau proyek yang ingin Anda bangun.",
+            "Saya selalu terbuka untuk peluang karir rekayasa perangkat lunak, proyek konsultasi dan analisis geospasial, pengembangan sistem GIS *custom*, serta kolaborasi riset teknis antardisiplin. Mari berdiskusi tentang ide atau proyek yang ingin Anda bangun.",
         "contact.copy": "Salin Email",
         "contact.copied": "Berhasil Disalin!",
 
@@ -165,7 +165,7 @@ export const ui = {
         "stats.eyebrow": "teknologi di seluruh karya",
         "stats.title": "Statistik Teknologi",
         "stats.intro":
-            "Halaman ini merangkum secara transparan seluruh bahasa pemrograman, framework, pustaka, dan perangkat teknis yang saya gunakan dalam berbagai proyek portofolio ini. Ukuran dan warna setiap tag mencerminkan tingkat frekuensi penggunaannya, dan Anda dapat mengeklik tag mana pun untuk menjelajahi karya-karya yang mengimplementasikan teknologi tersebut.",
+            "Halaman ini merangkum secara transparan seluruh bahasa pemrograman, *framework*, pustaka, dan perangkat teknis yang saya gunakan dalam berbagai proyek portofolio ini. Ukuran dan warna setiap *tag* mencerminkan tingkat frekuensi penggunaannya, dan Anda dapat mengeklik *tag* mana pun untuk menjelajahi karya-karya yang mengimplementasikan teknologi tersebut.",
         "stats.projects": "karya",
         "stats.project": "karya",
         "stats.technologies": "teknologi",

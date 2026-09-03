@@ -175,7 +175,7 @@ export const myProjectContent = {
             },
         ],
 
-        studyTitle: "Studi Kasus: {Judul Masalah atau Transformasi Arsitektur}",
+        studyTitle: "Sorotan Teknis: {Judul Masalah atau Transformasi Arsitektur}",
         story: [
             {
                 label: "1. Latar Belakang & Eksperimen Awal",

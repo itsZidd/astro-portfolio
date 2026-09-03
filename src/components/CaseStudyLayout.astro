@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Icon from "./Icon.astro";
 import TechIcon from "./TechIcon.astro";
+import ImageLightbox from "./ImageLightbox.astro";
 import { hasTechIcon } from "../lib/icons.ts";
 import { useTranslations, getLocalizedPath } from "../i18n/utils";
 import type { Lang } from "../i18n/config";
@@ -128,8 +129,11 @@ function inlineFormat(raw: string): string {
                         </div>
                         <div class="shot-grid">
                             {screenshots.map((s) => (
-                                <div class="shot glass-panel">
+                                <div class="shot glass-panel" role="button" tabindex="0" aria-label={s.alt}>
                                     <img src={s.src} alt={s.alt} loading="lazy" />
+                                    <span class="shot__zoom-badge" aria-hidden="true">
+                                        <Icon name="zoom-in" size={15} />
+                                    </span>
                                 </div>
                             ))}
                         </div>
@@ -224,6 +228,8 @@ function inlineFormat(raw: string): string {
         </section>
     </article>
 
+    {screenshots.length > 0 && <ImageLightbox />}
+
     <style>
         .case {
             padding-block: 40px 96px;
@@ -246,6 +252,10 @@ function inlineFormat(raw: string): string {
             margin: 16px 0 0;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .case__links {
             margin-top: 28px;
@@ -352,8 +362,6 @@ function inlineFormat(raw: string): string {
             font-size: 14.5px;
             color: var(--text-secondary);
             line-height: 1.6;
-            text-align: justify;
-            text-justify: inter-word;
         }
         .feature-card__bullet {
             display: inline-flex;
@@ -375,6 +383,12 @@ function inlineFormat(raw: string): string {
         .feature-card__text {
             flex: 1;
             min-width: 0;
+            text-align: justify;
+            text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .feature-card__text :global(code) {
             font-family: var(--font-mono);
@@ -407,8 +421,8 @@ function inlineFormat(raw: string): string {
             line-height: 1.55;
             padding: 8px 0;
             border-bottom: 1px solid var(--border-soft);
-            text-align: justify;
-            text-justify: inter-word;
+            text-align: left;
+            text-justify: auto;
         }
         .stack-group li:last-child {
             border-bottom: none;
@@ -464,6 +478,10 @@ function inlineFormat(raw: string): string {
             margin: 0;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .story__block :global(code) {
             font-family: var(--font-mono);
@@ -510,6 +528,10 @@ function inlineFormat(raw: string): string {
             margin: 0;
             text-align: justify;
             text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            text-wrap: pretty;
         }
         .notes__item :global(code) {
             font-family: var(--font-mono);
@@ -602,11 +624,19 @@ function inlineFormat(raw: string): string {
             flex: 0 0 auto;
             scroll-snap-align: start;
             height: 400px;
-            min-width: 280px;
-            aspect-ratio: 16 / 10;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border: 0.5px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
+            cursor: zoom-in;
+            background: rgba(18, 20, 17, 0.6);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .shot:not(.is-loaded) {
+            min-width: 220px;
             background: linear-gradient(
                 90deg,
                 rgba(18, 20, 17, 0.8) 0%,
@@ -616,11 +646,22 @@ function inlineFormat(raw: string): string {
             background-size: 200% 100%;
             animation: skeleton-shimmer 2s ease-in-out infinite;
         }
+        .shot.is-loaded {
+            min-width: 0;
+            background: transparent;
+            animation: none;
+        }
+        .shot:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px var(--glow-emerald);
+        }
         .shot img {
             position: relative;
             z-index: 1;
             height: 100%;
             width: auto;
+            max-width: 85vw;
+            object-fit: contain;
             display: block;
             opacity: 0;
             transition: opacity 0.35s ease;
@@ -628,10 +669,43 @@ function inlineFormat(raw: string): string {
         .shot img.is-loaded {
             opacity: 1;
         }
+        .shot__zoom-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(18, 20, 17, 0.85);
+            border: 1px solid var(--border);
+            color: var(--text);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+            pointer-events: none;
+        }
+        .shot:hover .shot__zoom-badge {
+            opacity: 1;
+            transform: scale(1);
+            color: var(--accent);
+            background: rgba(28, 30, 24, 0.95);
+        }
         @media (max-width: 640px) {
             .shot {
                 height: 320px;
-                min-width: 220px;
+            }
+            .shot:not(.is-loaded) {
+                min-width: 180px;
+            }
+            .shot__zoom-badge {
+                opacity: 0.85;
+                transform: scale(0.9);
             }
         }
     </style>
@@ -696,8 +770,10 @@ function inlineFormat(raw: string): string {
 
                     const imgs = track.querySelectorAll<HTMLImageElement>("img");
                     imgs.forEach((img) => {
+                        const shot = img.closest<HTMLElement>(".shot");
                         const handleLoad = () => {
                             img.classList.add("is-loaded");
+                            shot?.classList.add("is-loaded");
                             updateButtons();
                         };
                         if (img.complete && img.naturalWidth > 0) {
