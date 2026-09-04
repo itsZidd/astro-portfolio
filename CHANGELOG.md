@@ -5,6 +5,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## 2026-09-04 (v0.4.0)
+
+### Added
+
+- **Experience & Fieldwork Timeline**: Added `<ExperienceTimeline />` showcasing government agency planning (BPBD Kota Malang 540-point disaster risk geo-tagging, Ditjen Tata Ruang / MSIB VI RDTR Tegalsari 12 planning maps), academic empirical research expeditions (KKL 3 Krisik Blitar soil survey, KKL 2 Pacitan groundwater geophysics, KKL 1 Pasuruan hydrology), and Geography degree higher education with glowing category dots, metric chips, and tech stacks
+- **Certifications & Specializations Grid**: Added `<CertificatesGrid />` presenting 5 curated credentials from Esri and edX (University of Alaska Fairbanks, The University of Queensland) spanning ArcGIS Pro image analysis, Spatial Data Science, Satellite Imagery in Action, GIS for Climate Change, and Tropical Coastal Ecosystems
+- **Navigation Update**: Added `Experience` (`Pengalaman`) directly into sticky header navigation and mobile drawer menu
+
 ## 2026-09-04 (v0.3.0)
 
 ### Added

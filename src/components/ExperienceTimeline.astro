@@ -1,0 +1,412 @@
+---
+import Icon from "./Icon.astro";
+import TechIcon from "./TechIcon.astro";
+import { experiences } from "../data/experience";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/config";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+function inlineFormat(raw: string): string {
+    const escaped = raw
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    return escaped
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+}
+---
+
+<section id="experience" class="experience">
+    <div class="wrap">
+        <div class="section-header">
+            <div>
+                <span class="eyebrow">{t("experience.eyebrow")}</span>
+                <h2 class="section-title">{t("experience.title")}</h2>
+            </div>
+            <p class="section-intro" set:html={inlineFormat(t("experience.intro"))}></p>
+        </div>
+
+        <div class="timeline">
+            {
+                experiences.map((item) => (
+                    <div class={`timeline__item timeline__item--${item.category}`}>
+                        <div class="timeline__marker">
+                            <span class="timeline__dot"></span>
+                            <span class="timeline__line"></span>
+                        </div>
+
+                        <div class="timeline__content glass-panel">
+                            <div class="timeline__meta">
+                                <div class="timeline__tags">
+                                    <span class="timeline__period">{item.period}</span>
+                                    <span class={`timeline__badge timeline__badge--${item.category}`}>
+                                        {item.categoryLabel[lang]}
+                                    </span>
+                                </div>
+                                {item.metric && (
+                                    <span class="timeline__metric">
+                                        <Icon name="check-circle" size={13} />
+                                        <span>{item.metric[lang]}</span>
+                                    </span>
+                                )}
+                            </div>
+
+                            <h3 class="timeline__role">{item.role[lang]}</h3>
+                            <div class="timeline__org-row">
+                                <span class="timeline__org">{item.organization}</span>
+                                <span class="timeline__sep">·</span>
+                                <span class="timeline__loc">
+                                    <Icon name="map-pin" size={12} />
+                                    {item.location}
+                                </span>
+                            </div>
+
+                            <ul class="timeline__bullets">
+                                {item.bullets[lang].map((bullet) => (
+                                    <li class="timeline__bullet-item">
+                                        <span class="timeline__bullet-icon" aria-hidden="true">
+                                            <Icon name="chevron-right" size={13} strokeWidth={2.5} />
+                                        </span>
+                                        <div class="timeline__bullet-text" set:html={inlineFormat(bullet)} />
+                                    </li>
+                                ))}
+                            </ul>
+
+                            {item.techStack && item.techStack.length > 0 && (
+                                <div class="timeline__stack">
+                                    {item.techStack.map((tech) => (
+                                        <span class="tech-chip">
+                                            <TechIcon name={tech} size={12} />
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .experience {
+        padding-block: 70px;
+        border-top: 1px solid var(--border-soft);
+    }
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .section-title {
+        font-family: var(--font-display);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-size: 2.4rem;
+        color: var(--text);
+        margin: 6px 0 0;
+    }
+    .section-intro {
+        max-width: 52ch;
+        color: var(--text-secondary);
+        font-size: 15px;
+        line-height: 1.6;
+        margin: 0;
+        text-align: justify;
+        text-justify: inter-word;
+        text-align-last: left;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        text-wrap: pretty;
+    }
+
+    .timeline {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .timeline__item {
+        position: relative;
+        display: flex;
+        gap: 24px;
+    }
+
+    .timeline__marker {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+        width: 20px;
+    }
+
+    .timeline__dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--surface-2);
+        border: 2px solid var(--accent);
+        box-shadow: 0 0 10px var(--glow-emerald);
+        margin-top: 24px;
+        z-index: 2;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .timeline__item--agency .timeline__dot {
+        border-color: var(--teal-500);
+        box-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
+    }
+    .timeline__item--fieldwork .timeline__dot {
+        border-color: var(--amber-300);
+        box-shadow: 0 0 10px rgba(239, 159, 39, 0.4);
+    }
+    .timeline__item--education .timeline__dot {
+        border-color: var(--green-100);
+        box-shadow: 0 0 10px var(--glow-emerald);
+    }
+
+    .timeline__item:hover .timeline__dot {
+        transform: scale(1.3);
+        background: var(--accent);
+    }
+
+    .timeline__line {
+        position: absolute;
+        top: 38px;
+        bottom: -28px;
+        width: 2px;
+        background: linear-gradient(180deg, var(--border) 0%, rgba(255, 255, 255, 0.04) 100%);
+        z-index: 1;
+    }
+
+    .timeline__item:last-child .timeline__line {
+        display: none;
+    }
+
+    .timeline__content {
+        flex: 1;
+        min-width: 0;
+        padding: 26px;
+        border-radius: var(--radius);
+        background: linear-gradient(145deg, rgba(18, 20, 17, 0.88) 0%, rgba(26, 29, 23, 0.65) 100%);
+        border: 1px solid var(--border);
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .timeline__item:hover .timeline__content {
+        transform: translateX(4px);
+        border-color: var(--accent);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 20px var(--glow-emerald);
+    }
+
+    .timeline__meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .timeline__tags {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .timeline__period {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        color: var(--text-faint);
+    }
+
+    .timeline__badge {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .timeline__badge--agency {
+        color: var(--teal-500);
+        border-color: rgba(45, 212, 191, 0.3);
+        background: rgba(45, 212, 191, 0.08);
+    }
+
+    .timeline__badge--fieldwork {
+        color: var(--amber-300);
+        border-color: rgba(239, 159, 39, 0.3);
+        background: rgba(239, 159, 39, 0.08);
+    }
+
+    .timeline__badge--education {
+        color: var(--green-100);
+        border-color: rgba(151, 196, 89, 0.3);
+        background: rgba(151, 196, 89, 0.08);
+    }
+
+    .timeline__metric {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.05em;
+        color: var(--green-100);
+        background: rgba(151, 196, 89, 0.1);
+        border: 1px solid rgba(151, 196, 89, 0.25);
+        padding: 3px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .timeline__role {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0 0 6px;
+        line-height: 1.35;
+    }
+
+    .timeline__org-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .timeline__org {
+        font-weight: 500;
+        color: var(--accent);
+    }
+
+    .timeline__sep {
+        color: var(--text-faint);
+    }
+
+    .timeline__loc {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--text-faint);
+    }
+
+    .timeline__bullets {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .timeline__bullet-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14.5px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .timeline__bullet-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        background: rgba(151, 196, 89, 0.08);
+        color: var(--accent);
+        flex-shrink: 0;
+        margin-top: 3px;
+    }
+
+    .timeline__bullet-text {
+        flex: 1;
+        min-width: 0;
+        text-align: justify;
+        text-justify: inter-word;
+        text-align-last: left;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        text-wrap: pretty;
+    }
+
+    .timeline__stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border-soft);
+    }
+
+    .tech-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 6px;
+        padding: 4px 10px;
+    }
+
+    @media (max-width: 640px) {
+        .timeline__item {
+            gap: 14px;
+        }
+        .timeline__marker {
+            width: 14px;
+        }
+        .timeline__dot {
+            width: 12px;
+            height: 12px;
+            margin-top: 20px;
+        }
+        .timeline__line {
+            top: 32px;
+        }
+        .timeline__content {
+            padding: 18px;
+        }
+        .timeline__role {
+            font-size: 1.1rem;
+        }
+        .timeline__bullet-text {
+            text-align: left !important;
+            text-justify: auto !important;
+            text-align-last: left !important;
+        }
+    }
+</style>

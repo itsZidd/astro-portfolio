@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import ContourField from "../components/ContourField.astro";
 import Icon from "../components/Icon.astro";
 import TechIcon from "../components/TechIcon.astro";
+import ExperienceTimeline from "../components/ExperienceTimeline.astro";
+import CertificatesGrid from "../components/CertificatesGrid.astro";
 import { projects } from "../data/projects.ts";
 import { getTechCounts } from "../lib/tech.ts";
 import { useTranslations, getLocalizedPath, getProjectText } from "../i18n/utils";
@@ -221,6 +223,10 @@ function inlineFormat(raw: string): string {
             </div>
         </div>
     </section>
+
+    <ExperienceTimeline lang={lang} />
+
+    <CertificatesGrid lang={lang} />
 
     <section id="contact" class="contact">
         <div class="wrap">

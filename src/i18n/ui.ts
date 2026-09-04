@@ -3,6 +3,7 @@ export const ui = {
         // Layout / nav
         "nav.work": "Work",
         "nav.about": "About",
+        "nav.experience": "Experience",
         "nav.stats": "Stats",
         "nav.contact": "Contact",
         "nav.feedback": "Feedback",
@@ -38,6 +39,19 @@ export const ui = {
         "skills.software": "Software Engineering",
         "skills.gis": "GIS & Remote Sensing",
         "skills.aiml": "Applied AI & ML",
+
+        // Home — experience
+        "experience.eyebrow": "career & fieldwork",
+        "experience.title": "Experience & Fieldwork",
+        "experience.intro":
+            "Government agency planning, spatial risk assessment, and empirical geography research expeditions.",
+
+        // Home — certificates
+        "cert.eyebrow": "credentials & courses",
+        "cert.title": "Certifications",
+        "cert.intro":
+            "Verified credentials in spatial data science, satellite imagery analysis, and environmental modeling.",
+        "cert.verify": "Verify",
 
         // Home — contact
         "contact.title": "Let's Build Together",
@@ -118,6 +132,7 @@ export const ui = {
         // Layout / nav
         "nav.work": "Karya",
         "nav.about": "Tentang",
+        "nav.experience": "Pengalaman",
         "nav.stats": "Statistik",
         "nav.contact": "Kontak",
         "nav.feedback": "Masukan",
@@ -153,6 +168,19 @@ export const ui = {
         "skills.software": "Rekayasa Perangkat Lunak",
         "skills.gis": "GIS & Penginderaan Jauh",
         "skills.aiml": "AI & ML Terapan",
+
+        // Home — experience
+        "experience.eyebrow": "rekam jejak & survei",
+        "experience.title": "Pengalaman & Survei Lapangan",
+        "experience.intro":
+            "Perencanaan spasial instansi kementerian, validasi risiko bencana daerah, serta ekspedisi riset geografi empiris.",
+
+        // Home — certificates
+        "cert.eyebrow": "kredensial & kursus",
+        "cert.title": "Sertifikasi & Lisensi",
+        "cert.intro":
+            "Kredensial terverifikasi dalam sains data spasial (*spatial data science*), analisis citra satelit, dan pemodelan lingkungan.",
+        "cert.verify": "Lihat Kredensial",
 
         // Home — contact
         "contact.title": "Mari Berkolaborasi",
