@@ -50,10 +50,39 @@ function inlineFormat(raw: string): string {
                             <p class="cert-card__desc" set:html={inlineFormat(cert.description[lang])}></p>
                         )}
 
-                        <div class="cert-card__skills">
-                            {cert.skills.map((skill) => (
-                                <span class="cert-chip">{skill}</span>
-                            ))}
+                        <div class="cert-card__bottom">
+                            <div class="cert-card__skills">
+                                {cert.skills.map((skill) => (
+                                    <span class="cert-chip">{skill}</span>
+                                ))}
+                            </div>
+
+                            {cert.credentialUrl && (
+                                <div class="cert-card__action">
+                                    <a
+                                        href={cert.credentialUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        class="cert-btn"
+                                        aria-label={`${t("cert.verify")}: ${cert.title}`}
+                                    >
+                                        <span>{t("cert.verify")}</span>
+                                        <Icon name="square-arrow-out-up-right" size={13} />
+                                    </a>
+                                    {cert.id === "bnsp-remote-sensing-kualifikasi-6" && (
+                                        <a
+                                            href="/certificates/bnsp-remote-sensing-back.jpg"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            class="cert-btn cert-btn--subtle"
+                                            aria-label="Lihat Daftar Unit Kompetensi (Halaman Belakang)"
+                                        >
+                                            <span>{lang === "id" ? "Unit Kompetensi (Hal. 2)" : "Competencies (Back)"}</span>
+                                            <Icon name="square-arrow-out-up-right" size={12} />
+                                        </a>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))
@@ -142,6 +171,13 @@ function inlineFormat(raw: string): string {
         border: 1px solid var(--border);
     }
 
+    .cert-card__platform--bnsp {
+        color: var(--green-100);
+        background: rgba(151, 196, 89, 0.12);
+        border-color: rgba(151, 196, 89, 0.3);
+        box-shadow: 0 0 8px var(--glow-emerald);
+    }
+
     .cert-card__platform--esri {
         color: var(--teal-500);
         background: rgba(45, 212, 191, 0.1);
@@ -190,13 +226,19 @@ function inlineFormat(raw: string): string {
         flex-grow: 1;
     }
 
+    .cert-card__bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: auto;
+        padding-top: 14px;
+        border-top: 1px solid var(--border-soft);
+    }
+
     .cert-card__skills {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        margin-top: auto;
-        padding-top: 14px;
-        border-top: 1px solid var(--border-soft);
     }
 
     .cert-chip {
@@ -208,6 +250,50 @@ function inlineFormat(raw: string): string {
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 4px;
         padding: 3px 8px;
+    }
+
+    .cert-card__action {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .cert-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        padding: 5px 12px;
+        border-radius: var(--radius-sm);
+        background: rgba(151, 196, 89, 0.08);
+        border: 1px solid rgba(151, 196, 89, 0.22);
+        width: fit-content;
+    }
+
+    .cert-btn:hover {
+        background: rgba(151, 196, 89, 0.18);
+        border-color: var(--accent);
+        color: var(--accent-strong);
+        gap: 11px;
+    }
+
+    .cert-btn--subtle {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: var(--border);
+        color: var(--text-secondary);
+    }
+
+    .cert-btn--subtle:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent);
+        color: var(--text);
+        gap: 11px;
     }
 
     @media (max-width: 640px) {

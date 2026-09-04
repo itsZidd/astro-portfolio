@@ -5,6 +5,19 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## 2026-09-04 (v0.5.0)
+
+### Added
+
+- **BNSP Professional Certificate of Competence**: Added national qualification Level 6 in Remote Sensing (*Kualifikasi 6 Penginderaan Jauh*) issued by BNSP & LSP Universitas Negeri Malang, featuring verified external credentials and local dual-page scan assets
+- **Verified Official Credential Links**: Linked all 5 specialized credentials from Esri, edX, and BNSP with direct verification actions (`Verify ↗` / `Lihat Kredensial ↗`)
+- **Institution Logos in Experience Timeline**: Added official badge icons in `public/logo/` for BPBD Kota Malang, Kementerian ATR/BPN, and Universitas Negeri Malang across government planning, academic fieldwork, and education items
+- **Education Stack Expansion**: Added `R`, `RStudio`, and `SPSS` to the higher education competency stack
+
+### Changed
+
+- **Direct Mailto Contact Action**: Converted contact button from clipboard copy to direct `mailto:mziddanmalik@gmail.com` link across bilingual templates
+
 ## 2026-09-04 (v0.4.0)
 
 ### Added

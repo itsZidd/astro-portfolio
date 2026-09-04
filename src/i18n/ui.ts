@@ -57,8 +57,7 @@ export const ui = {
         "contact.title": "Let's Build Together",
         "contact.text":
             "Open to software engineering roles, geospatial analysis projects, and technical research collaboration.",
-        "contact.copy": "Copy Email",
-        "contact.copied": "Copied to Clipboard!",
+        "contact.email": "Send Email",
 
         // Stats page
         "stats.eyebrow": "tech across projects",
@@ -186,8 +185,7 @@ export const ui = {
         "contact.title": "Mari Berkolaborasi",
         "contact.text":
             "Saya selalu terbuka untuk peluang karir rekayasa perangkat lunak, proyek konsultasi dan analisis geospasial, pengembangan sistem GIS *custom*, serta kolaborasi riset teknis antardisiplin. Mari berdiskusi tentang ide atau proyek yang ingin Anda bangun.",
-        "contact.copy": "Salin Email",
-        "contact.copied": "Berhasil Disalin!",
+        "contact.email": "Kirim Email",
 
         // Stats page
         "stats.eyebrow": "teknologi di seluruh karya",

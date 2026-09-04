@@ -237,16 +237,13 @@ function inlineFormat(raw: string): string {
                     <p class="contact-card__text" set:html={inlineFormat(t("contact.text"))}></p>
 
                     <div class="contact__actions">
-                        <button
-                            id="copy-email-btn"
+                        <a
+                            href="mailto:mziddanmalik@gmail.com"
                             class="btn btn-primary"
-                            data-email="itszidanmalik@gmail.com"
-                            data-label-copy={t("contact.copy")}
-                            data-label-copied={t("contact.copied")}
                         >
                             <Icon name="mail" size={15} />
-                            <span id="copy-email-label">{t("contact.copy")}</span>
-                        </button>
+                            <span>{t("contact.email")}</span>
+                        </a>
 
                         <a
                             href="https://github.com/itsZidd"
@@ -774,26 +771,6 @@ function inlineFormat(raw: string): string {
                     });
                 };
             });
-
-            // Email Copy Logic
-            const copyBtn = document.getElementById("copy-email-btn");
-            const copyLabel = document.getElementById("copy-email-label");
-
-            if (copyBtn && copyLabel) {
-                copyBtn.onclick = () => {
-                    const email = copyBtn.getAttribute("data-email") || "itszidanmalik@gmail.com";
-                    const copiedText = copyBtn.getAttribute("data-label-copied") || "Copied to Clipboard!";
-                    const originalText = copyBtn.getAttribute("data-label-copy") || "Copy Email";
-
-                    navigator.clipboard.writeText(email).then(() => {
-                        copyLabel.textContent = copiedText;
-                        copyBtn.classList.add("btn-primary");
-                        setTimeout(() => {
-                            copyLabel.textContent = originalText;
-                        }, 2500);
-                    });
-                };
-            }
         }
 
         document.addEventListener("astro:page-load", initHomeView);

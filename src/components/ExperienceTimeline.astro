@@ -60,12 +60,19 @@ function inlineFormat(raw: string): string {
 
                             <h3 class="timeline__role">{item.role[lang]}</h3>
                             <div class="timeline__org-row">
-                                <span class="timeline__org">{item.organization}</span>
-                                <span class="timeline__sep">·</span>
-                                <span class="timeline__loc">
-                                    <Icon name="map-pin" size={12} />
-                                    {item.location}
-                                </span>
+                                {item.logo && (
+                                    <div class="timeline__logo-slot">
+                                        <img src={item.logo} alt={item.organization} class="timeline__logo" loading="lazy" />
+                                    </div>
+                                )}
+                                <div class="timeline__org-info">
+                                    <span class="timeline__org">{item.organization}</span>
+                                    <span class="timeline__sep">·</span>
+                                    <span class="timeline__loc">
+                                        <Icon name="map-pin" size={12} />
+                                        {item.location}
+                                    </span>
+                                </div>
                             </div>
 
                             <ul class="timeline__bullets">
@@ -294,11 +301,40 @@ function inlineFormat(raw: string): string {
     .timeline__org-row {
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 13.5px;
-        color: var(--text-secondary);
+        gap: 12px;
         margin-bottom: 16px;
         flex-wrap: wrap;
+    }
+
+    .timeline__logo-slot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        padding: 4px;
+        flex-shrink: 0;
+        backdrop-filter: blur(8px);
+    }
+
+    .timeline__logo {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .timeline__org-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        font-size: 13.5px;
+        color: var(--text-secondary);
     }
 
     .timeline__org {

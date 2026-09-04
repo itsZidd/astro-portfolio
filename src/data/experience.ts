@@ -21,12 +21,14 @@ export interface ExperienceItem {
         id: string[];
     };
     techStack?: string[];
+    logo?: string;
 }
 
 export const experiences: ExperienceItem[] = [
     {
         id: "bpbd-malang-2025",
         period: "2025",
+        logo: "/logo/bpbd.png",
         role: {
             en: "Disaster Risk Assessment Enumerator",
             id: "Enumerator Kajian Risiko Bencana",
@@ -57,6 +59,7 @@ export const experiences: ExperienceItem[] = [
     {
         id: "ditjen-tataruang-2024",
         period: "Feb 2024 — Jun 2024",
+        logo: "/logo/atr-bpn.svg",
         role: {
             en: "Detailed Spatial Planning (RDTR) Drafting Team",
             id: "Tim Penyusun Rencana Detail Tata Ruang (RDTR)",
@@ -87,6 +90,7 @@ export const experiences: ExperienceItem[] = [
     {
         id: "kkl-3-2024",
         period: "2024",
+        logo: "/logo/um-university.png",
         role: {
             en: "KKL 3 Treasurer & Soil Research Specialist",
             id: "Bendahara KKL 3 & Spesialis Riset Tanah",
@@ -117,6 +121,7 @@ export const experiences: ExperienceItem[] = [
     {
         id: "kkl-2-2023",
         period: "2023",
+        logo: "/logo/um-university.png",
         role: {
             en: "KKL 2 Event Division & Hydro-Geophysics Team",
             id: "Divisi Acara & Tim Hidro-Geofisika KKL 2",
@@ -147,6 +152,7 @@ export const experiences: ExperienceItem[] = [
     {
         id: "kkl-1-2022",
         period: "2022",
+        logo: "/logo/um-university.png",
         role: {
             en: "KKL 1 Logistics Division & Hydrology Team",
             id: "Divisi Logistik & Tim Hidrologi KKL 1",
@@ -173,6 +179,7 @@ export const experiences: ExperienceItem[] = [
     {
         id: "education-um",
         period: "2021 — Present",
+        logo: "/logo/um-university.png",
         role: {
             en: "Bachelor of Science in Geography (Sains Geografi)",
             id: "Sarjana Sains Geografi (S.Si)",
@@ -198,6 +205,6 @@ export const experiences: ExperienceItem[] = [
                 "Menjembatani metodologi analisis geografi dengan rekayasa perangkat lunak modern, otomatisasi data *pipeline*, dan model *machine learning* spasial.",
             ],
         },
-        techStack: ["ArcGIS Pro", "Google Earth Engine", "QGIS", "Python", "Spatial Data Science"],
+        techStack: ["ArcGIS Pro", "Google Earth Engine", "QGIS", "Python", "R", "RStudio", "SPSS", "Spatial Data Science"],
     },
 ];
